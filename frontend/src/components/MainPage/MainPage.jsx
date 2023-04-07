@@ -1,13 +1,13 @@
 import React from 'react';
-import Neuron from "../../services/neuron";
-import State from "../../services/state";
+import { Container } from '@mui/material';
+import Scheme from './Scheme';
 
 const MainPage = () => {
     return (
         <main>
-            <h1>MainPage</h1>
-            <Neuron/>
-            <State/>
+            <Container sx={{ pt: '100px' }}>
+                <Scheme />
+            </Container>
         </main>      
     )
 }
