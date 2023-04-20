@@ -9,7 +9,6 @@ export const useProductsStore = create((set, get) => ({
     if(get().products !== data.products){
     set({ products: data.products });
     }
-    console.log(get().products[0]);
   },
 }))
 

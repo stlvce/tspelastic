@@ -41,7 +41,7 @@ const DropDownMenu = ({ pages, anchorElNav, handleOpenNavMenu, handleCloseNavMen
                 }}
             >
                 {pages.map((page) => (
-                    <Link to={page === "Home" ?  "/" : "/help"}>
+                    <Link to={page === "Home" ?  "/" : "/help"} key={page}>
                         <MenuItem key={page} onClick={handleCloseNavMenu}>
                             <Typography textAlign="center">{page}</Typography>
                         </MenuItem>

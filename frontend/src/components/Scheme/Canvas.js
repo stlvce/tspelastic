@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState, useMemo, useCallback, useReducer } from 'react';
-import { Box, Button, Slider } from '@mui/material';
-import '../../styles/canvas.css';
+import React, { useEffect, useRef, useMemo, useCallback, useReducer } from 'react';
+import { Box, Button, Slider, ButtonGroup } from '@mui/material';
 import Point from '../../services/point';
 import ElasticNet from '../../services/ElasticNet';
+import TableParametrs from './TableParametrs';
 
 function sortCitiesByLine(cities, points) {
   // Функция для нахождения расстояния между двумя точками
@@ -180,8 +180,20 @@ const initialState = {
     return (
         <Box className="canvas-box">
           <canvas ref={canvasRef} width={props.width} height={props.height}></canvas>
-          <Button onClick={onStart}>{state.started ? "Стоп": "Старт"}</Button>
-          <Slider aria-label="Cities len" min={10} step={10} max={100} value={state.range} valueLabelDisplay="auto" onChange={(e) => {dispatch({ type: 'setRange', payload: e.target.value });}} />
+          <ButtonGroup variant="contained" fullWidth> 
+            <Button onClick={onStart}>{state.started ? "Стоп": "Старт"}</Button>
+            <Button onClick={console.log("Модальное окно нужно добавить")}>Параметры</Button>
+          </ButtonGroup>
+          <Slider 
+            aria-label="Cities len" 
+            min={10} 
+            step={10} 
+            max={100} 
+            value={state.range} 
+            valueLabelDisplay="auto" 
+            onChange={(e) => {dispatch({ type: 'setRange', payload: e.target.value });}} 
+          />
+          <TableParametrs />
         </Box>
       )
 

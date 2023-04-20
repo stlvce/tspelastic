@@ -13,7 +13,7 @@ import BlueSwitch from "./BlueSwitch";
 
 const Header = () => {
     const [anchorElNav, setAnchorElNav] = useState(null);
-    const pages = ['Home', 'Help'];
+    const pages = ['Домой', 'Помощь'];
 
     const handleOpenNavMenu = (event) => {
       setAnchorElNav(event.currentTarget);
@@ -35,7 +35,7 @@ const Header = () => {
                     />
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (
-                            <Link to={page === "Home" ? "/" : "/help"}>
+                            <Link to={page === "Домой" ? "/" : "/help"} key={page}>
                                 <Button
                                     onClick={handleCloseNavMenu}
                                     sx={{ my: 1, color: 'black', mr: '10px', fontSize: '20px' }}
@@ -47,7 +47,7 @@ const Header = () => {
                         ))}
                     </Box>
                     <Box sx={{ flexGrow: 0 }}>
-                        <FormControlLabel control={<BlueSwitch />} label="LANGUAGE"/>
+                        <FormControlLabel control={<BlueSwitch />} label="ЯЗЫК"/>
                     </Box>
                 </Toolbar>
             </Container>

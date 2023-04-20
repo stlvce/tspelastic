@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback, useReducer } from 'react';
 import { Box, Button, Slider } from '@mui/material';
-import '../../styles/canvas.css';
 import Point from '../../services/point';
 import WorkerBuilder from '../../services/WorkerBuilder'
 import Worker from '../../services/worker';
