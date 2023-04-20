@@ -1,10 +1,20 @@
-import React from 'react';
-import { Container, Box, Typography, Button } from '@mui/material';
+import React, { useState } from 'react';
+import { 
+    Container, 
+    Box, 
+    Typography, 
+    Button
+} from '@mui/material';
 import Canvas from '../Scheme/Canvas'
 import Productlist from '../ProductList/productlist';
 import SelectedProducts from './SelectedProducts';
+import ModalProducts from './ModalProducts';
 
 const MainPage = () => {
+    const [open, setOpen] = useState(false);
+    const handleClickOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
     return (
         <main>
             <Container sx={{ pt: '100px' }}>
@@ -13,7 +23,8 @@ const MainPage = () => {
                     <Typography variant="h5">
                         Продукты
                     </Typography>
-                    <Button variant="contained">Добавить продукты</Button>
+                    <Button onClick={handleClickOpen} variant="contained">Добавить продукты</Button>
+                    <ModalProducts open={open} handleClose={handleClose}/>
                 </Box >
                 <SelectedProducts/>
                 <Productlist/>

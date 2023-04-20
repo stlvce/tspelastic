@@ -18,7 +18,7 @@ export default function SelectedProducts() {
 
     return (
         <Container sx={{ height: "700px", background: "#FFF", paddingTop: "2em", overflow: 'auto', borderRadius: "10px"}}>
-            <Grid 
+            {/* <Grid 
                 container
                 direction="column"
                 justifyContent="space-around"
@@ -56,7 +56,7 @@ export default function SelectedProducts() {
                         </Card>
                     </Grid>   
                 )}
-            </Grid>
+            </Grid> */}
         </Container>
     )
 }

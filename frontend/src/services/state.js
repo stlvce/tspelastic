@@ -7,7 +7,7 @@ export const useProductsStore = create((set, get) => ({
     const response = await fetch('http://localhost:5000/products');
     const data = await response.json();
     if(get().products !== data.products){
-    set({ products: data.products });
+      set({ products: data.products });
     }
   },
 }))

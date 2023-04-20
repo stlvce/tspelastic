@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useMemo, useCallback, useReducer } from 'react';
-import { Box, Button, Slider, ButtonGroup } from '@mui/material';
+import React, { useState, useEffect, useRef, useMemo, useCallback, useReducer } from 'react';
+import { Box, Button, Slider, ButtonGroup, Alert } from '@mui/material';
 import Point from '../../services/point';
 import ElasticNet from '../../services/ElasticNet';
 import TableParametrs from './TableParametrs';
+import ModalParametrs from './ModalParametrs';
 
 function sortCitiesByLine(cities, points) {
   // Функция для нахождения расстояния между двумя точками
@@ -147,7 +148,7 @@ const initialState = {
               return () => cancelAnimationFrame(requestRef.current);
             }
             else{
-            requestRef.current = requestAnimationFrame(redraw);
+              requestRef.current = requestAnimationFrame(redraw);
             }
       }
       useEffect(()=>{
@@ -161,7 +162,8 @@ const initialState = {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawEdges(ctx, state.sortCities, '#0f0');
             drawNodes(ctx, state.sortCities, 4, true);
-            console.log(state.sortCities, "sortcities");
+            // console.log(state.sortCities, "sortcities");
+            setIsDone(true)
         }
       }, [state.sortCities])
     
@@ -176,13 +178,20 @@ const initialState = {
             drawNodes(ctx, _scaledpoints, 3, false);
             drawEdges(ctx, _scaledpoints);
       }, [])
+
+      const [isDone, setIsDone] = useState(false)
+      const [openParams, setOpenParams] = useState(false);
+      const handleClickOpenParams = () => setOpenParams(true);
+      const handleClickCloseParams = () => setOpenParams(false);
             
     return (
         <Box className="canvas-box">
+          {isDone && <Alert onClose={() => {setIsDone(false)}} severity="success" sx={{ position: "fixed", bottom: 0, left: 0, zIndex: "100" }}>This is a success alert — check it out!</Alert>}
           <canvas ref={canvasRef} width={props.width} height={props.height}></canvas>
           <ButtonGroup variant="contained" fullWidth> 
             <Button onClick={onStart}>{state.started ? "Стоп": "Старт"}</Button>
-            <Button onClick={console.log("Модальное окно нужно добавить")}>Параметры</Button>
+            <Button onClick={handleClickOpenParams}>Параметры</Button>
+            <ModalParametrs open={openParams} handleClose={handleClickCloseParams}/>
           </ButtonGroup>
           <Slider 
             aria-label="Cities len" 
