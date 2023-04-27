@@ -17,9 +17,9 @@ const MainPage = () => {
 
     return (
         <main>
-            <Container sx={{ pt: '100px' }}>
+            <Container sx={{ p: '100px 0' }}>
                 <Canvas width={1200} height={800}/>
-                <Box sx={{ display: "flex", justifyContent: "space-between", mb: "10px"}}>
+                <Box sx={{ display: "flex", justifyContent: "space-between", m: "40px 0 10px 0"}}>
                     <Typography variant="h5">
                         Продукты
                     </Typography>

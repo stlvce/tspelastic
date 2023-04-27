@@ -1,9 +1,6 @@
 import React from "react";
 import { 
     Dialog,
-    List,
-    ListItem,
-    ListItemText,
     Toolbar,
     IconButton,
     Typography,
@@ -13,6 +10,7 @@ import {
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 
+// Убрать это
 const parametrs = [
     {name: 'alpha', def: '0.2'}, 
     {name: 'beta', def: '2.0'}, 
@@ -39,17 +37,10 @@ export default function ModalParametrs({ open, handleClose }) {
                     <CloseIcon />
                 </IconButton>
             </Toolbar>
-            {/* <List sx={{ p: "5px 20px" }}>
-                {parametrs.map((p) => (
-                    <ListItem disableGutters key={p.name}>
-                        <TextField fullWidth label={p.name} id={p.name} />
-                    </ListItem>
-                ))}
-            </List> */}
             <Grid container justifyContent="space-between" sx={{ gap: "10px", p: "10px 24px"}}>
                 {parametrs.map((p) => (
                     <Grid item key={p.name}>
-                        <TextField fullWidth label={p.name} id={p.name} />
+                        <TextField fullWidth label={p.name} id={p.name} defaultValue={p.def}/>
                     </Grid>
                 ))}
             </Grid>

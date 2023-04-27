@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef, useMemo, useCallback, useReducer } 
 import { Box, Button, Slider, ButtonGroup, Alert } from '@mui/material';
 import Point from '../../services/point';
 import ElasticNet from '../../services/ElasticNet';
-import TableParametrs from './TableParametrs';
 import ModalParametrs from './ModalParametrs';
 
 function sortCitiesByLine(cities, points) {
@@ -202,7 +201,6 @@ const initialState = {
             valueLabelDisplay="auto" 
             onChange={(e) => {dispatch({ type: 'setRange', payload: e.target.value });}} 
           />
-          <TableParametrs />
         </Box>
       )
 

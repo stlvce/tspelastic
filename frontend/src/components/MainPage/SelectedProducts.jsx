@@ -17,7 +17,7 @@ export default function SelectedProducts() {
     const categories = useCategoriesStore((state) => state.categories, shallow);
 
     return (
-        <Container sx={{ height: "700px", background: "#FFF", paddingTop: "2em", overflow: 'auto', borderRadius: "10px"}}>
+        <Container sx={{ height: "700px", background: "#FFF", pt: "2em", overflow: 'auto', borderRadius: "10px"}}>
             {/* <Grid 
                 container
                 direction="column"
