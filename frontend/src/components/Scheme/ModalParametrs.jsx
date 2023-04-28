@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { 
     Dialog,
     Toolbar,
@@ -9,6 +9,7 @@ import {
     Grid
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
+import { LangContext } from "../../context/langContext";
 
 // Убрать это
 const parametrs = [
@@ -24,10 +25,12 @@ const parametrs = [
 ];
 
 export default function ModalParametrs({ open, handleClose }) {
+    const [selectLang] = useContext(LangContext);
+
     return (
         <Dialog open={open} onClose={handleClose} scroll="body" maxWidth="md">
             <Toolbar>
-                <Typography sx={{ flex: 1 }} variant="h5">Параметры</Typography>
+                <Typography sx={{ flex: 1 }} variant="h5">{selectLang.param}</Typography>
                 <IconButton
                     edge="start"
                     color="inherit"
@@ -44,7 +47,7 @@ export default function ModalParametrs({ open, handleClose }) {
                     </Grid>
                 ))}
             </Grid>
-            <Button onClick={handleClose} sx={{ mt: "20px"}} variant="text" color="success">Готово</Button>
+            <Button onClick={handleClose} sx={{ mt: "20px"}} variant="text" color="success">{selectLang.done}</Button>
         </Dialog>   
     )
 }

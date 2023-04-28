@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { LangContext } from "../../context/langContext";
 import { 
     Button, 
     Input, 
@@ -16,6 +17,7 @@ export default function TableParametrs() {
     const updateCategory = useCategoriesStore((state) => state.updateCategory);
     const updateCategoryfetch = useCategoriesStore((state) => state.updateCategoryfetch);
     const [editedId, setEditedid] =  useState(0);
+    const [selectLang] = useContext(LangContext);
 
     function editCategory(id){
         setEditedid(id);
@@ -32,12 +34,7 @@ export default function TableParametrs() {
         <Table>
             <TableHead>
                 <TableRow>
-                    <TableCell>Название</TableCell>
-                    <TableCell>Начальное x</TableCell>
-                    <TableCell>Начальное y</TableCell>
-                    <TableCell>Конечное x</TableCell>
-                    <TableCell>Конечное y</TableCell>
-                    <TableCell>Действие</TableCell>
+                    {selectLang.tableParam.map(param => <TableCell>{param}</TableCell>)}
                 </TableRow>
             </TableHead>
             <TableBody>
@@ -66,9 +63,9 @@ export default function TableParametrs() {
                         </TableCell>
                     <TableCell>
                         {editedId === category.id ?
-                        <Button onClick={(e)=>saveedited(category.id)} sx={{ color: "#000" }}>Сохранить</Button>
+                        <Button onClick={(e)=>saveedited(category.id)} sx={{ color: "#000" }}>{selectLang.save}</Button>
                         :
-                        <Button onClick={(e)=>editCategory(category.id)} sx={{ color: "#000" }}>Редактировать</Button>
+                        <Button onClick={(e)=>editCategory(category.id)} sx={{ color: "#000" }}>{selectLang.edit}</Button>
                         }
                         </TableCell>
                 </TableRow>)

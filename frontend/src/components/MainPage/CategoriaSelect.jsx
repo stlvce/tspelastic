@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { FormControl, Select, InputLabel, OutlinedInput, MenuItem, Box, Chip} from "@mui/material";
 import { useTheme } from '@mui/material/styles';
+import { LangContext } from "../../context/langContext";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -25,6 +26,7 @@ function getStyles(name, personName, theme) {
 export default function CategoriaSelect({ categories }) {
     const theme = useTheme();
     const [personName, setPersonName] = useState([]);
+    const [selectLang] = useContext(LangContext);
 
     const handleChange = (event) => {
         const {
@@ -38,14 +40,14 @@ export default function CategoriaSelect({ categories }) {
     return (
         <div>
             <FormControl sx={{ m: 1, width: 600 }} color="secondary">
-                <InputLabel id="demo-multiple-chip-label">Категории</InputLabel>
+                <InputLabel id="demo-multiple-chip-label">{selectLang.categor}</InputLabel>
                 <Select
                     labelId="demo-multiple-chip-label"
                     id="demo-multiple-chip"
                     multiple
                     value={personName}
                     onChange={handleChange}
-                    input={<OutlinedInput id="select-multiple-chip" label="Категории" />}
+                    input={<OutlinedInput id="select-multiple-chip" label={selectLang.categor} />}
                     renderValue={(selected) => (
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                             {selected.map((value) => (

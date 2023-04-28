@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { 
     Typography, 
     Button, 
@@ -22,6 +22,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useProductsStore, useCategoriesStore } from "../../services/state";
 import { shallow } from "zustand/shallow";
 import CategoriaSelect from "./CategoriaSelect";
+import { LangContext } from "../../context/langContext";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -52,7 +53,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
     justifyContent: 'center',
 }));
   
-  const StyledInputBase = styled(InputBase)(({ theme }) => ({
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
     '& .MuiInputBase-input': {
       padding: theme.spacing(1, 1, 1, 0),
@@ -68,6 +69,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 export default function ModalProducts({ open, handleClose, select }) {
     const productlist = useProductsStore((state) => state.products, shallow);
     const categories = useCategoriesStore((state) => state.categories, shallow);
+    const [selectLang] = useContext(LangContext);
 
     return (
         <Dialog
@@ -88,21 +90,21 @@ export default function ModalProducts({ open, handleClose, select }) {
                     </IconButton>
                     <Box sx={{ display: "flex", alignItems: "center", gap: "10px", flex: 1}}>
                         <Typography sx={{ ml: 2}} variant="h6" component="div">
-                            Добавление продуктов
+                            {selectLang.addingProduct}
                         </Typography>
                         <Search>
                             <SearchIconWrapper>
                                 <SearchIcon />
                             </SearchIconWrapper>
                             <StyledInputBase
-                                placeholder="Найти..."
+                                placeholder={selectLang.search}
                                 inputProps={{ 'aria-label': 'search' }}
                             />
                         </Search>
                         <CategoriaSelect categories={categories}/>
                     </Box>
                     <Button autoFocus color="inherit" onClick={handleClose}>
-                        Готово
+                        {selectLang.done}
                     </Button>
                 </Toolbar>
             </AppBar>

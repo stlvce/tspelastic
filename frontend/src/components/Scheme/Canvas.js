@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef, useMemo, useCallback, useReducer } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback, useReducer, useContext } from 'react';
 import { Box, Button, Slider, ButtonGroup, Alert, Typography } from '@mui/material';
 import Point from '../../services/point';
 import ElasticNet from '../../services/ElasticNet';
 import ModalParametrs from './ModalParametrs';
+import { LangContext } from '../../context/langContext';
 
 function sortCitiesByLine(cities, points) {
   // Функция для нахождения расстояния между двумя точками
@@ -182,15 +183,16 @@ const initialState = {
       const [openParams, setOpenParams] = useState(false);
       const handleClickOpenParams = () => setOpenParams(true);
       const handleClickCloseParams = () => setOpenParams(false);
+      const [selectLang] = useContext(LangContext)
             
     return (
         <Box className="canvas-box">
           {isDone && <Alert onClose={() => {setIsDone(false)}} severity="success" sx={{ position: "fixed", bottom: 0, left: 0, zIndex: "100" }}>This is a success alert — check it out!</Alert>}
-          <Typography variant='h5'>Схема</Typography>
+          <Typography variant='h5'>{selectLang.scheme}</Typography>
           <canvas ref={canvasRef} width={props.width} height={props.height}></canvas>
           <ButtonGroup variant="contained" fullWidth> 
-            <Button onClick={onStart}>{state.started ? "Стоп": "Старт"}</Button>
-            <Button onClick={handleClickOpenParams}>Параметры</Button>
+            <Button onClick={onStart}>{state.started ? selectLang.stop : selectLang.start}</Button>
+            <Button onClick={handleClickOpenParams}>{selectLang.param}</Button>
             <ModalParametrs open={openParams} handleClose={handleClickCloseParams}/>
           </ButtonGroup>
           <Slider 

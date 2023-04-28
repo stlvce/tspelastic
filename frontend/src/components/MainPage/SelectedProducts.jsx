@@ -1,4 +1,4 @@
-import React, { useState } from "react"; 
+import React, { useState, useContext } from "react"; 
 import {
     Container, 
     Card, 
@@ -13,6 +13,7 @@ import {
 import { useCategoriesStore } from "../../services/state";
 import { shallow } from 'zustand/shallow'
 import ModalProducts from "./ModalProducts";
+import { LangContext } from "../../context/langContext";
 
 export default function SelectedProducts() {
     const categories = useCategoriesStore((state) => state.categories, shallow);
@@ -20,6 +21,7 @@ export default function SelectedProducts() {
     const handleClickOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [selectProd, setSelectProd] = useState([]);
+    const [selectLang] = useContext(LangContext)
 
     const select = (item) => {
         setSelectProd([...selectProd, item])
@@ -27,11 +29,11 @@ export default function SelectedProducts() {
 
     return (
         <>
-            <Box sx={{ display: "flex", justifyContent: "space-between", m: "40px 0 10px 0"}}>
+            <Box sx={{ display: "flex", justifyContent: "space-between", m: "40px 0 10px 0" }}>
                 <Typography variant="h5">
-                    Продукты ({selectProd.length})
+                    {selectLang.product} ({selectProd.length})
                 </Typography>
-                <Button onClick={handleClickOpen} variant="contained">Добавить продукты</Button>
+                <Button onClick={handleClickOpen} variant="contained">{selectLang.addProduct}</Button>
                 <ModalProducts open={open} handleClose={handleClose} select={select}/>
             </Box >
             <Container sx={{ height: "700px", background: "#FFF", pt: "2em", overflow: 'auto', borderRadius: "10px", boxShadow: 3}}>
