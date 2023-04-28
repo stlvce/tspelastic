@@ -53,7 +53,6 @@ export const useCategoriesStore = create((set, get) => ({
     });
     const resp =  await response.json();
     return resp.msg;
-
   }
 }))
 

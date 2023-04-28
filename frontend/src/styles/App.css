@@ -26,6 +26,10 @@ canvas {
     margin-bottom: 1em;
 }
 
+.canvas-box h5 {
+    align-self: flex-start;
+}
+
 .canvas-box button {
     color: #000;
 }

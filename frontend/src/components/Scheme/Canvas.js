@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback, useReducer } from 'react';
-import { Box, Button, Slider, ButtonGroup, Alert } from '@mui/material';
+import { Box, Button, Slider, ButtonGroup, Alert, Typography } from '@mui/material';
 import Point from '../../services/point';
 import ElasticNet from '../../services/ElasticNet';
 import ModalParametrs from './ModalParametrs';
@@ -186,6 +186,7 @@ const initialState = {
     return (
         <Box className="canvas-box">
           {isDone && <Alert onClose={() => {setIsDone(false)}} severity="success" sx={{ position: "fixed", bottom: 0, left: 0, zIndex: "100" }}>This is a success alert — check it out!</Alert>}
+          <Typography variant='h5'>Схема</Typography>
           <canvas ref={canvasRef} width={props.width} height={props.height}></canvas>
           <ButtonGroup variant="contained" fullWidth> 
             <Button onClick={onStart}>{state.started ? "Стоп": "Старт"}</Button>

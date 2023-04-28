@@ -18,8 +18,10 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
+import AddIcon from '@mui/icons-material/Add';
 import { useProductsStore, useCategoriesStore } from "../../services/state";
 import { shallow } from "zustand/shallow";
+import CategoriaSelect from "./CategoriaSelect";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -59,14 +61,11 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
       width: '100%',
       [theme.breakpoints.up('sm')]: {
         width: '40ch',
-        // '&:focus': {
-        //   width: '40ch',
-        // },
       },
     },
 }));
 
-export default function ModalProducts({ open, handleClose }) {
+export default function ModalProducts({ open, handleClose, select }) {
     const productlist = useProductsStore((state) => state.products, shallow);
     const categories = useCategoriesStore((state) => state.categories, shallow);
 
@@ -77,7 +76,7 @@ export default function ModalProducts({ open, handleClose }) {
             onClose={handleClose}
             TransitionComponent={Transition}
         >
-            <AppBar position="fixed">
+            <AppBar >
                 <Toolbar>
                     <IconButton
                         edge="start"
@@ -100,15 +99,25 @@ export default function ModalProducts({ open, handleClose }) {
                                 inputProps={{ 'aria-label': 'search' }}
                             />
                         </Search>
+                        <CategoriaSelect categories={categories}/>
                     </Box>
                     <Button autoFocus color="inherit" onClick={handleClose}>
-                        Сохранить
+                        Готово
                     </Button>
                 </Toolbar>
             </AppBar>
-            <List>
+            <List sx={{top: "80px"}}>
                 {productlist.map(product => 
-                    <ListItem button divider key={product.id}>
+                    <ListItem 
+                        divider 
+                        secondaryAction={
+                            <IconButton edge="end" aria-label="delete">
+                                <AddIcon color="su"/>
+                            </IconButton>
+                        }
+                        key={product.id} 
+                        onClick={() => select(product)}
+                    >
                         <ListItemAvatar>
                             <Avatar alt="Remy Sharp" src={product.image} />
                         </ListItemAvatar>
