@@ -24,6 +24,9 @@ export const langList = {
         categor: "Категории",
         description: "При нажатии на кнопку параметры появляется диалоговое окно с параметрами для вычисления эластичной нейронной сети. Можете их корректировать для лучшей скорости. По умолчанию установлены оптимальные значения.",
         imgParam: imgParamRu,
+        tableProdLabel: "Таблица продуктов",
+        tableProd: ["Название", "Id категории", "Описание", "Действие"],
+        tableParamLabel: "Таблица категорий",
         tableParam: ["Название", "Начальное x", "Начальное y", "Конечное x", "Конечное y", "Действие"],
         edit: "Редактировать",
         save: "Сохранить"
@@ -47,6 +50,9 @@ export const langList = {
         categor: "Categories",
         description: "When you click on the Parameters button, a dialog box appears with the parameters for calculating the elastic neural network. You can adjust them for better speed. By default, the optimal values are set.",
         imgParam: imgParamEng,
+        tableProdLabel: "Product table",
+        tableProd: ["Name", "Id category", "Description", "Action"],
+        tableParamLabel: "Category table",
         tableParam: ["Name", "Start x", "Start y", "End x", "End y", "Action"],
         edit: "Edit",
         save: "Save"

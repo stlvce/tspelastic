@@ -24,17 +24,17 @@ export default function TableParametrs() {
 }
 
     function saveedited(id){
-            if(editedId === id){
-                const msg = updateCategoryfetch(id);
-                setEditedid(0);
-            }
+        if(editedId === id){
+            updateCategoryfetch(id);
+            setEditedid(0);
+        }
     }
 
     return (
-        <Table>
+        <Table size="small">
             <TableHead>
                 <TableRow>
-                    {selectLang.tableParam.map(param => <TableCell>{param}</TableCell>)}
+                    {selectLang.tableParam.map(param => <TableCell key={param} align="center">{param}</TableCell>)}
                 </TableRow>
             </TableHead>
             <TableBody>
@@ -61,7 +61,7 @@ export default function TableParametrs() {
                             updateCategory(category.id, 'end_y', e.target.value)
                         }} disabled={editedId !== category.id}/>
                         </TableCell>
-                    <TableCell>
+                    <TableCell align="center">
                         {editedId === category.id ?
                         <Button onClick={(e)=>saveedited(category.id)} sx={{ color: "#000" }}>{selectLang.save}</Button>
                         :

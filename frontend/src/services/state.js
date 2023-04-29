@@ -10,6 +10,13 @@ export const useProductsStore = create((set, get) => ({
       set({ products: data.products });
     }
   },
+  updateProduct: () => {
+    console.log("Написать")
+  },
+  updateProductfetch: async (id) => {
+    console.log("Написать 2")
+    return id
+  }
 }))
 
 export const useCategoriesStore = create((set, get) => ({
