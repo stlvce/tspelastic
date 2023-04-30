@@ -1,12 +1,10 @@
 import React, { useContext } from "react";
 import { LangContext } from "../../context/langContext";
-import { Container, Box, Typography, Tab, Tabs } from "@mui/material";
+import { Container, Box, Tab, Tabs } from "@mui/material";
 import TableParametrs from "../Scheme/TableParametrs";
 import TableProducts from "./TableProducts";
 
-function TabPanel(props) {
-    const { children, value, index, ...other } = props;
-  
+function TabPanel({ children, value, index, ...other }) {
     return (
       <div
         role="tabpanel"
@@ -15,11 +13,7 @@ function TabPanel(props) {
         aria-labelledby={`simple-tab-${index}`}
         {...other}
       >
-        {value === index && (
-          <Box sx={{ p: 3 }}>
-            <Typography>{children}</Typography>
-          </Box>
-        )}
+        {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
       </div>
     );
 }
@@ -34,10 +28,7 @@ function a11yProps(index) {
 const AdminPage = () => {
     const [value, setValue] = React.useState(0);
     const [selectLang] = useContext(LangContext);
-
-    const handleChange = (event, newValue) => {
-      setValue(newValue);
-    };
+    const handleChange = (event, newValue) => setValue(newValue);
 
     return (
         <main>

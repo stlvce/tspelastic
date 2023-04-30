@@ -63,9 +63,9 @@ export default function TableParametrs() {
                         </TableCell>
                     <TableCell align="center">
                         {editedId === category.id ?
-                        <Button onClick={(e)=>saveedited(category.id)} sx={{ color: "#000" }}>{selectLang.save}</Button>
+                        <Button onClick={(e)=>saveedited(category.id)} color="secondary">{selectLang.save}</Button>
                         :
-                        <Button onClick={(e)=>editCategory(category.id)} sx={{ color: "#000" }}>{selectLang.edit}</Button>
+                        <Button onClick={(e)=>editCategory(category.id)} color="secondary">{selectLang.edit}</Button>
                         }
                         </TableCell>
                 </TableRow>)

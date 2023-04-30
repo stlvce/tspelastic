@@ -8,8 +8,11 @@ import {
     Grid, 
     Typography,
     Box, 
-    Button 
+    Button,
+    IconButton,
+    CardActions 
 } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useCategoriesStore } from "../../services/state";
 import { shallow } from 'zustand/shallow'
 import ModalProducts from "./ModalProducts";
@@ -21,11 +24,9 @@ export default function SelectedProducts() {
     const handleClickOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [selectProd, setSelectProd] = useState([]);
-    const [selectLang] = useContext(LangContext)
-
-    const select = (item) => {
-        setSelectProd([...selectProd, item])
-    }
+    const [selectLang] = useContext(LangContext);
+    const select = (item) => setSelectProd([...selectProd, item]);
+    const remove = (item) => setSelectProd(selectProd.filter(p => p.id !== item.id))
 
     return (
         <>
@@ -71,7 +72,11 @@ export default function SelectedProducts() {
                                         {product.description}
                                     </Typography>
                                 </CardContent> && product.description !== ""}
-
+                                <CardActions disableSpacing>
+                                    <IconButton onClick={() => remove(product)} aria-label="delete">
+                                        <DeleteIcon />
+                                    </IconButton>
+                                </CardActions>
                             </Card>
                         </Grid>   
                     )}

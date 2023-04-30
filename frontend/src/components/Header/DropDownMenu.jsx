@@ -1,15 +1,9 @@
 import React from 'react';
-import { 
-    Box,
-    IconButton,
-    Typography,
-    Menu,
-    MenuItem 
-} from '@mui/material';
+import { Box, IconButton, Typography, Menu, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom';
 
-const DropDownMenu = ({ pages, anchorElNav, handleOpenNavMenu, handleCloseNavMenu }) => {
+export default function DropDownMenu({ pages, anchorElNav, handleOpenNavMenu, handleCloseNavMenu }) {
     return (
         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -25,20 +19,12 @@ const DropDownMenu = ({ pages, anchorElNav, handleOpenNavMenu, handleCloseNavMen
             <Menu
                 id="menu-appbar"
                 anchorEl={anchorElNav}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                }}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
                 keepMounted
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'left',
-                }}
+                transformOrigin={{ vertical: 'top', horizontal: 'left' }}
                 open={Boolean(anchorElNav)}
                 onClose={handleCloseNavMenu}
-                sx={{
-                    display: { xs: 'block', md: 'none' },
-                }}
+                sx={{ display: { xs: 'block', md: 'none' } }}
             >
                 {pages.map((page) => (
                     <Link to={page.link} key={page.name}>
@@ -51,5 +37,3 @@ const DropDownMenu = ({ pages, anchorElNav, handleOpenNavMenu, handleCloseNavMen
         </Box>
     )
 }
-
-export default DropDownMenu;

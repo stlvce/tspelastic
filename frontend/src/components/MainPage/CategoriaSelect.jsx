@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
-import { FormControl, Select, InputLabel, OutlinedInput, MenuItem, Box, Chip} from "@mui/material";
-import { useTheme } from '@mui/material/styles';
+import { FormControl, Select, InputLabel, OutlinedInput, MenuItem, Checkbox, ListItemText} from "@mui/material";
 import { LangContext } from "../../context/langContext";
 
 const ITEM_HEIGHT = 48;
@@ -14,17 +13,7 @@ const MenuProps = {
   },
 };
 
-function getStyles(name, personName, theme) {
-    return {
-      fontWeight:
-        personName.indexOf(name) === -1
-          ? theme.typography.fontWeightRegular
-          : theme.typography.fontWeightBold,
-    };
-}
-
 export default function CategoriaSelect({ categories }) {
-    const theme = useTheme();
     const [personName, setPersonName] = useState([]);
     const [selectLang] = useContext(LangContext);
 
@@ -40,30 +29,24 @@ export default function CategoriaSelect({ categories }) {
     return (
         <div>
             <FormControl sx={{ m: 1, width: 600 }} color="secondary">
-                <InputLabel id="demo-multiple-chip-label">{selectLang.categor}</InputLabel>
+                <InputLabel id="demo-multiple-checkbox-label">{selectLang.categor}</InputLabel>
                 <Select
-                    labelId="demo-multiple-chip-label"
-                    id="demo-multiple-chip"
+                    labelId="demo-multiple-checkbox-label"
+                    id="demo-multiple-checkbox"
                     multiple
                     value={personName}
                     onChange={handleChange}
-                    input={<OutlinedInput id="select-multiple-chip" label={selectLang.categor} />}
-                    renderValue={(selected) => (
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                            {selected.map((value) => (
-                                <Chip key={value} label={value} />
-                            ))}
-                        </Box>
-                    )}
+                    input={<OutlinedInput label={selectLang.categor} />}
+                    renderValue={(selected) => selected.join(', ')}
                     MenuProps={MenuProps}
                 >
                     {categories.map((item) => (
                         <MenuItem
                             key={item.name}
                             value={item.name}
-                            style={getStyles(item.name, personName, theme)}
                         >
-                            {item.name}
+                            <Checkbox checked={personName.indexOf(item.name) > -1} />
+                            <ListItemText primary={item.name} />
                         </MenuItem>
                     ))}
                 </Select>

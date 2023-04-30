@@ -113,15 +113,14 @@ export default function ModalProducts({ open, handleClose, select }) {
                     <ListItem 
                         divider 
                         secondaryAction={
-                            <IconButton edge="end" aria-label="delete">
+                            <IconButton edge="end" aria-label="delete" onClick={() => select(product)}>
                                 <AddIcon color="su"/>
                             </IconButton>
                         }
                         key={product.id} 
-                        onClick={() => select(product)}
                     >
                         <ListItemAvatar>
-                            <Avatar alt="Remy Sharp" src={product.image} />
+                            <Avatar alt="product" src={product.image}/>
                         </ListItemAvatar>
                         <ListItemText primary={product.name} secondary={categories ? 
                             categories.filter(category => category.id === product.category_id)[0]?.name : ''} 
