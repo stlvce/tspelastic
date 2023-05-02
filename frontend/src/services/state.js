@@ -107,9 +107,10 @@ export const useCanvasStore = create((set, get) => ({
     maxNumIter: 100000,
     numPointsFactor: 2.5,
     radius: 0.1,
-    },
-    setStarted: (bool) => set({ started: bool }),
-    setSortedProducts: (newArray) => set({ sortSelectedProducts: newArray }),
+  },
+  hoverProduct: null,
+  setStarted: (bool) => set({ started: bool }),
+  setSortedProducts: (newArray) => set({ sortSelectedProducts: newArray }),
   add_select_product: (x, y, id) =>{
       set((state) => ({
         selectedProducts: [
@@ -121,6 +122,7 @@ export const useCanvasStore = create((set, get) => ({
     set((state) => ({
       selectedProducts: state.selectedProducts.filter(selpro => {return selpro.id !== id})
     }))
-},
+  },
+  setHoverProduct: (product) => set(() => ({hoverProduct: product})), 
 }))
 

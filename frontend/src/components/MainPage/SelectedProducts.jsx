@@ -11,26 +11,18 @@ import {
     Button 
 } from '@mui/material';
 import { useCanvasStore } from "../../services/state";
-import { shallow } from 'zustand/shallow'
 import ModalProducts from "./ModalProducts";
 import { LangContext } from "../../context/langContext";
-import { useEffect } from "react";
 
 export default function SelectedProducts({products, categories}) {
-    const {selectedProducts, add_select_product, del_select_product} = useCanvasStore();
+    const {selectedProducts, add_select_product, del_select_product, setHoverProduct, hoverProduct} = useCanvasStore();
     const [open, setOpen] = useState(false);
     const handleClickOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [selectLang] = useContext(LangContext)
-
-    const select = (item) => {
-        add_select_product(Math.random(), Math.random(), item);
-    }
-
-    const unselect = (item) => {
-        del_select_product(item);
-    }
-
+    
+    const select = (item) => add_select_product(Math.random(), Math.random(), item);
+    const unselect = (item) => del_select_product(item);
 
     return (
         <>
@@ -42,28 +34,26 @@ export default function SelectedProducts({products, categories}) {
                 <ModalProducts open={open} handleClose={handleClose} select={select} unselect={unselect}/>
             </Box >
             <Container sx={{ height: "700px", background: "#FFF", pt: "2em", overflow: 'auto', borderRadius: "10px", boxShadow: 3}}>
-                <Grid 
-                    container
-                    spacing={3}
-                    sx={{gap: "2em"}}
-                >
+                <Grid container spacing={3} sx={{gap: "2em"}}>
                     {selectedProducts && products && products.filter(product=> {
                         return selectedProducts.some(selpro=>{
                             return product.id === selpro.id
                         })
                     }).map(product=>{
-                    return ( <Grid item key={"selpro" + product.id}
-                    sx={{
-                        width: "300px",
-                        height: "300px"
-                    }}>
+                    return ( 
+                        <Grid 
+                            item key={"selpro" + product.id}
+                            sx={{ width: "300px", height: "300px" }}
+                            onMouseEnter={() => setHoverProduct(product.id)}
+                            // onMouseLeave={() => setHoverProduct(null)}
+                        >
                             <Card
                               sx={{
                                 width: "300px",
                                 height: "300px",
                                 ':hover': {
                                     background: "#0F0",
-                                  boxShadow: 20, // theme.shadows[20]
+                                  boxShadow: 20, 
                                 },
                               }}>
                                 
@@ -88,7 +78,6 @@ export default function SelectedProducts({products, categories}) {
                                         {product.description}
                                     </Typography>
                                 </CardContent> && product.description !== ""}
-
                             </Card>
                         </Grid>   )
                         }

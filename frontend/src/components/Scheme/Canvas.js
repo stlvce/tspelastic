@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useMemo, useCallback, useReducer, useContext } from 'react';
-import { Box, Button, Slider, ButtonGroup, Alert, Typography } from '@mui/material';
+import React, { useState, useEffect, useRef, useMemo, useCallback, useContext } from 'react';
+import { Box, Button, ButtonGroup, Alert, Typography } from '@mui/material';
 import Point from '../../services/point';
 import ElasticNet from '../../services/ElasticNet';
 import ModalParametrs from './ModalParametrs';
@@ -59,13 +59,19 @@ function sortCitiesByLine(cities, points) {
         },
         [canvasRef.current]
       );
+
       const drawNodes = useCallback(
-        (context, nodes, radius, fill) => {
-          context.strokeStyle = '#444';
+        (context, nodes, radius, fill, color) => {
+          // context.strokeStyle = color;
           nodes.forEach((node) => {
             context.beginPath();
             context.arc(node.x, node.y, radius, 0, Math.PI * 2, true);
             context.closePath();
+            console.log(node.id, state.hoverProduct)
+            if (node.id === state.hoverProduct) {
+              console.log("Изменился цвет")
+              context.strokeStyle = "#0f0"
+            } else {context.strokeStyle = color}
             if (fill) {
               context.fill();
             } else {
@@ -75,7 +81,7 @@ function sortCitiesByLine(cities, points) {
         },
         [canvasRef.current]
       );
-  
+
       const elasticnet = useMemo(() => new ElasticNet(state.selectedProducts, state.params), [state.selectedProducts, state.params]);
       
       function _scaled(canvas, points) {
@@ -94,6 +100,7 @@ function sortCitiesByLine(cities, points) {
           requestRef.current = requestAnimationFrame(redraw);
         }
       }
+
       const redraw = time =>{
             const canvas = canvasRef.current;
             const ctx = canvas.getContext('2d');
@@ -115,6 +122,7 @@ function sortCitiesByLine(cities, points) {
       }
 
       useEffect(()=>{
+        console.log("1", state.hoverProduct)
         if(state.sortSelectedProducts.length > 0){
             const canvas = canvasRef.current;
             const ctx = canvas.getContext('2d');
@@ -126,6 +134,7 @@ function sortCitiesByLine(cities, points) {
       }, [state.sortSelectedProducts])
 
       useEffect(()=>{
+        console.log("2 Id выделенного объекта = ", state.hoverProduct)
         if(state.selectedProducts.length > 0){
             elasticnet.setNewData(state.selectedProducts, state.params);
             const canvas = canvasRef.current;
@@ -134,7 +143,7 @@ function sortCitiesByLine(cities, points) {
             const _scaledcities = _scaled(canvas, state.selectedProducts);
             drawNodes(ctx, _scaledcities, 4, true);
         }
-      }, [state.selectedProducts])
+      }, [state.selectedProducts, state.hoverProduct])
     
       useEffect(()=>{
             const canvas = canvasRef.current;

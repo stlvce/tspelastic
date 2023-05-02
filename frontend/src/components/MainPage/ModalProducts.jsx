@@ -26,7 +26,6 @@ import { shallow } from "zustand/shallow";
 import CategoriaSelect from "./CategoriaSelect";
 import { LangContext } from "../../context/langContext";
 import { useState } from "react";
-import { useEffect } from "react";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -129,25 +128,24 @@ export default function ModalProducts({ open, handleClose, select, unselect }) {
             <List>
                 {productlist.filter(product=> filtercategory.length ? filtercategory.includes(product.category_id) : product).filter(
                     product=>product.name.toLowerCase().includes(searchtext.toLowerCase())).map(
-                        product => 
-                    {
-                                return <ListItem
-                                    divider
-                                    secondaryAction={<IconButton edge="end" aria-label="delete">
-                                        { selectedProducts.filter(selpro => selpro.id === product.id)[0] ? <RemoveIcon color="su"/> :  <AddIcon color="su" />}
-                                    </IconButton>}
-                                    key={product.id}
-                                    onClick={() => { selectedProducts.filter(selpro => selpro.id === product.id)[0] ? unselect(product.id) :  select(product.id)}}
-                                >
-                                    <ListItemAvatar>
-                                        <Avatar alt="Remy Sharp" src={product.image} />
-                                    </ListItemAvatar>
-                                    <ListItemText primary={product.name} secondary={categories ?
-                                        categories.filter(category => category.id === product.category_id)[0]?.name : ''} />
-                                </ListItem>;
-                            }
-                )}
-
+                        product => {
+                            return <ListItem
+                                divider
+                                secondaryAction={<IconButton edge="end" aria-label="delete">
+                                    { selectedProducts.filter(selpro => selpro.id === product.id)[0] ? <RemoveIcon color="su"/> :  <AddIcon color="su" />}
+                                </IconButton>}
+                                key={product.id}
+                                onClick={() => { selectedProducts.filter(selpro => selpro.id === product.id)[0] ? unselect(product.id) :  select(product.id)}}
+                            >
+                                <ListItemAvatar>
+                                    <Avatar alt="Remy Sharp" src={product.image} />
+                                </ListItemAvatar>
+                                <ListItemText primary={product.name} secondary={categories ?
+                                    categories.filter(category => category.id === product.category_id)[0]?.name : ''} />
+                            </ListItem>;
+                        }
+                    )
+                }
             </List>
             </Paper>
         </Dialog>
