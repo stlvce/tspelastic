@@ -27,18 +27,18 @@ export default function TableProdBody() {
             {productlist.slice(0,20)?.map(product => {
                 return(<TableRow key={product.id}>
                     <TableCell>
-                        <Input type='string' value={product.name} onChange={()=>{
-                            updateProduct()
+                        <Input type='string' value={product.name} onChange={(e)=>{
+                            updateProduct(product.id, 'name', e.target.value)
                         }} disabled={editedId !== product.id} fullWidth/>
                     </TableCell>
                     <TableCell>
-                        <Input type='number' value={product.category_id} onChange={()=>{
-                            updateProduct()
+                        <Input type='number' value={product.category_id} onChange={(e)=>{
+                            updateProduct(product.id, 'category_id', e.target.value)
                         }} disabled={editedId !== product.id}/>
                     </TableCell>
                     <TableCell>
-                        <Input type='string' value={product.description} onChange={()=>{
-                            updateProduct()
+                        <Input type='string' value={product.description} onChange={(e)=>{
+                            updateProduct(product.id, 'description', e.target.value)
                         }} disabled={editedId !== product.id}/>
                     </TableCell>
                     <TableCell align="center">

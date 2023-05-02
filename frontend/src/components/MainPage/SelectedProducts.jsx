@@ -8,55 +8,71 @@ import {
     Grid, 
     Typography,
     Box, 
-    Button,
-    IconButton,
-    CardActions 
+    Button 
 } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { useCategoriesStore } from "../../services/state";
+import { useCanvasStore } from "../../services/state";
 import { shallow } from 'zustand/shallow'
 import ModalProducts from "./ModalProducts";
 import { LangContext } from "../../context/langContext";
+import { useEffect } from "react";
 
-export default function SelectedProducts() {
-    const categories = useCategoriesStore((state) => state.categories, shallow);
+export default function SelectedProducts({products, categories}) {
+    const {selectedProducts, add_select_product, del_select_product} = useCanvasStore();
     const [open, setOpen] = useState(false);
     const handleClickOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [selectProd, setSelectProd] = useState([]);
-    const [selectLang] = useContext(LangContext);
-    const select = (item) => setSelectProd([...selectProd, item]);
-    const remove = (item) => setSelectProd(selectProd.filter(p => p.id !== item.id))
+    const [selectLang] = useContext(LangContext)
+
+    const select = (item) => {
+        add_select_product(Math.random(), Math.random(), item);
+    }
+
+    const unselect = (item) => {
+        del_select_product(item);
+    }
+
 
     return (
         <>
             <Box sx={{ display: "flex", justifyContent: "space-between", m: "40px 0 10px 0" }}>
                 <Typography variant="h5">
-                    {selectLang.product} ({selectProd.length})
+                    {selectLang.product} ({selectedProducts.length})
                 </Typography>
                 <Button onClick={handleClickOpen} variant="contained">{selectLang.addProduct}</Button>
-                <ModalProducts open={open} handleClose={handleClose} select={select}/>
+                <ModalProducts open={open} handleClose={handleClose} select={select} unselect={unselect}/>
             </Box >
             <Container sx={{ height: "700px", background: "#FFF", pt: "2em", overflow: 'auto', borderRadius: "10px", boxShadow: 3}}>
                 <Grid 
                     container
-                    direction="column"
-                    justifyContent="space-around"
-                    alignItems="stretch"
+                    spacing={3}
                     sx={{gap: "2em"}}
                 >
-                    {selectProd && selectProd.map(product=>
-                        <Grid item key={product.id}>
-                            <Card sx={{
-                                display: "flex",
-                                justifyContent: "space-around"
-                            }}>
+                    {selectedProducts && products && products.filter(product=> {
+                        return selectedProducts.some(selpro=>{
+                            return product.id === selpro.id
+                        })
+                    }).map(product=>{
+                    return ( <Grid item key={"selpro" + product.id}
+                    sx={{
+                        width: "300px",
+                        height: "300px"
+                    }}>
+                            <Card
+                              sx={{
+                                width: "300px",
+                                height: "300px",
+                                ':hover': {
+                                    background: "#0F0",
+                                  boxShadow: 20, // theme.shadows[20]
+                                },
+                              }}>
+                                
                                 <CardMedia
                                     component="img"
-                                    height="200px"
+                                    height="128px"
                                     image={product.image}
                                     alt={product.name}
-                                    sx={{ maxWidth: "200px", borderRadius: "100%" }}
+                                    sx={{ maxWidth: "128px", borderRadius: "100%" }}
                                 />
                                 <CardHeader
                                     title={product.name}
@@ -72,13 +88,10 @@ export default function SelectedProducts() {
                                         {product.description}
                                     </Typography>
                                 </CardContent> && product.description !== ""}
-                                <CardActions disableSpacing>
-                                    <IconButton onClick={() => remove(product)} aria-label="delete">
-                                        <DeleteIcon />
-                                    </IconButton>
-                                </CardActions>
+
                             </Card>
-                        </Grid>   
+                        </Grid>   )
+                        }
                     )}
                 </Grid>
             </Container>

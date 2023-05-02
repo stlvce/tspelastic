@@ -87,7 +87,7 @@ def add_product():
     category_id = request.json.get("category_id", None)
 
     with app.app_context():
-        id = db.session.query(Product).filter(Product.name==name).first()
+        product = db.session.query(Product).filter(Product.id==id).first()
         if id == None:
             new_product = Product()
             new_product.name = name
@@ -97,6 +97,13 @@ def add_product():
             db.session.add(new_product)
             db.session.commit()
             return jsonify({'msg': 'Вы добавили продукт'}), 200
+        elif id != None:
+            product.name = name
+            product.image = image
+            product.description= description
+            product.category_id = category_id
+            db.session.commit()
+            return jsonify({'msg': 'Вы обновили продукт'}), 200
         return jsonify({'msg': 'Не правильные данные'}), 401
 
 

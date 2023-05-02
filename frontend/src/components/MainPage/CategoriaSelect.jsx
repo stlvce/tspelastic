@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { FormControl, Select, InputLabel, OutlinedInput, MenuItem, Checkbox, ListItemText} from "@mui/material";
 import { LangContext } from "../../context/langContext";
 
@@ -13,9 +13,13 @@ const MenuProps = {
   },
 };
 
-export default function CategoriaSelect({ categories }) {
+export default function CategoriaSelect({ categories, categoryfilter }) {
     const [personName, setPersonName] = useState([]);
     const [selectLang] = useContext(LangContext);
+
+    useEffect(()=>{
+        categoryfilter(personName);
+    },[personName])
 
     const handleChange = (event) => {
         const {
