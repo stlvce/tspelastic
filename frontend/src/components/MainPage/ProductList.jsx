@@ -1,35 +1,52 @@
-import React from "react";
-import { List, ListItem, ListItemText, ListItemAvatar, Avatar, IconButton } from "@mui/material";
-import RemoveIcon from '@mui/icons-material/Remove';
-import AddIcon from '@mui/icons-material/Add';
-import { useProductsStore, useCategoriesStore, useCanvasStore } from "../../services/state";
+import React, { useState, useEffect, createRef, useRef } from "react";
+import { List } from "@mui/material";
+import { useProductsStore } from "../../services/state";
 import { shallow } from "zustand/shallow";
+import ProductItem from "./ProductItem";
 
 export default function ProductList({ searchtext, filtercategory, select, unselect }) {
     const productlist = useProductsStore((state) => state.products, shallow);
-    const selectedProducts = useCanvasStore((state)=> state.selectedProducts, shallow);
-    const categories = useCategoriesStore((state) => state.categories, shallow);
+    const portion = 20;
+    const totalPages = Math.ceil(productlist.length / portion);
+    const [arrProd, setArrProd] = useState({ data: [], page: 1});
+    const lastItem = createRef();
+    const observerLoader = useRef();
+
+    const getNewProds = () => {
+        if (arrProd.data.length > 1) {      
+            setArrProd({
+                data: [...arrProd.data, ...productlist.slice(arrProd.data.length, portion*arrProd.page)],
+                page: arrProd.page+1
+            })
+        } else {
+            setArrProd({
+                data: [...productlist.slice(0, portion)],
+                page: arrProd.page+1
+            })
+        }
+    }
+
+    const actionInSight = (entries) => {
+        if (entries[0].isIntersecting && arrProd.page <= totalPages) {
+            getNewProds();
+        }
+    };
+
+    useEffect(() => getNewProds(), [])
+
+    useEffect(() => {
+        if (observerLoader.current) observerLoader.current.disconnect();
+        observerLoader.current = new IntersectionObserver(actionInSight);
+        if (lastItem.current) observerLoader.current.observe(lastItem.current);
+    }, [lastItem]);
 
     return (
         <List>
-            {productlist.filter(product=> filtercategory.length ? filtercategory.includes(product.category_id) : product).filter(
+            {arrProd.data.filter(product=> filtercategory.length ? filtercategory.includes(product.category_id) : product).filter(
                 product=>product.name.toLowerCase().includes(searchtext.toLowerCase())).map(
-                    product => {
-                        return <ListItem
-                            divider
-                            secondaryAction={<IconButton edge="end" aria-label="delete">
-                                { selectedProducts.filter(selpro => selpro.id === product.id)[0] ? <RemoveIcon color="su"/> :  <AddIcon color="su" />}
-                            </IconButton>}
-                            key={product.id}
-                            onClick={() => { selectedProducts.filter(selpro => selpro.id === product.id)[0] ? unselect(product.id) :  select(product.id)}}
-                        >
-                            <ListItemAvatar>
-                                <Avatar alt="Remy Sharp" src={product.image} />
-                            </ListItemAvatar>
-                            <ListItemText primary={product.name} secondary={categories ?
-                                categories.filter(category => category.id === product.category_id)[0]?.name : ''} />
-                        </ListItem>;
-                    }
+                    (product, index) => index + 1 === arrProd.data.length 
+                        ? <ProductItem product={product} select={select} unselect={unselect} key={product.id} ref={lastItem}/> 
+                        : <ProductItem product={product} select={select} unselect={unselect} key={product.id}/>
                 )
             }
         </List>    

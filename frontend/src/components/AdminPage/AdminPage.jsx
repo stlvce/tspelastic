@@ -47,7 +47,7 @@ const AdminPage = () => {
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
-                        <TableProducts />
+                        <TableProducts/>
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         <TableParametrs />
