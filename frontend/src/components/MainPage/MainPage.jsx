@@ -10,8 +10,8 @@ const MainPage = () => {
     const products = useProductsStore(state=> state.products);
     return (
         <main>
-            <Container sx={{ p: '100px 0' }}>
-                <Canvas width={1200} height={800}/>
+            <Container sx={{ display: "flex", flexWrap: "wrap",justifyContent: "space-between", p: '100px 0' }} maxWidth="xl">
+                <Canvas width={700} height={600}/>
                 <SelectedProducts products={products} categories={categories}/>
             </Container>
         </main>      

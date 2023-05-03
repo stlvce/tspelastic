@@ -6,26 +6,20 @@ import {
     AppBar,
     Toolbar,
     IconButton,
-    List,
-    ListItem,
-    ListItemText,
     Slide,
     InputBase,
     Box,
-    ListItemAvatar,
-    Avatar,
     Paper
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
-import { useProductsStore, useCategoriesStore, useCanvasStore } from "../../services/state";
+import { useCategoriesStore } from "../../services/state";
 import { shallow } from "zustand/shallow";
 import CategoriaSelect from "./CategoriaSelect";
 import { LangContext } from "../../context/langContext";
 import { useState } from "react";
+import ProductList from "./ProductList";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -70,9 +64,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function ModalProducts({ open, handleClose, select, unselect }) {
-    const productlist = useProductsStore((state) => state.products, shallow);
     const categories = useCategoriesStore((state) => state.categories, shallow);
-    const selectedProducts = useCanvasStore((state)=> state.selectedProducts, shallow);
     const [selectLang] = useContext(LangContext);
     const [searchtext, setSearch] = useState('');
     const [filtercategory, setfiltercategory] = useState([]); 
@@ -125,28 +117,12 @@ export default function ModalProducts({ open, handleClose, select, unselect }) {
                 </Toolbar>
             </AppBar>
             <Paper sx={{maxHeight: devicePixelRatio.height, overflow: 'auto', mt: "80px"}}>
-            <List>
-                {productlist.filter(product=> filtercategory.length ? filtercategory.includes(product.category_id) : product).filter(
-                    product=>product.name.toLowerCase().includes(searchtext.toLowerCase())).map(
-                        product => {
-                            return <ListItem
-                                divider
-                                secondaryAction={<IconButton edge="end" aria-label="delete">
-                                    { selectedProducts.filter(selpro => selpro.id === product.id)[0] ? <RemoveIcon color="su"/> :  <AddIcon color="su" />}
-                                </IconButton>}
-                                key={product.id}
-                                onClick={() => { selectedProducts.filter(selpro => selpro.id === product.id)[0] ? unselect(product.id) :  select(product.id)}}
-                            >
-                                <ListItemAvatar>
-                                    <Avatar alt="Remy Sharp" src={product.image} />
-                                </ListItemAvatar>
-                                <ListItemText primary={product.name} secondary={categories ?
-                                    categories.filter(category => category.id === product.category_id)[0]?.name : ''} />
-                            </ListItem>;
-                        }
-                    )
-                }
-            </List>
+                <ProductList 
+                    searchtext={searchtext} 
+                    filtercategory={filtercategory} 
+                    select={select}
+                    unselect={unselect}
+                />
             </Paper>
         </Dialog>
     )

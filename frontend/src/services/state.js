@@ -96,6 +96,7 @@ export const useCategoriesStore = create((set, get) => ({
 export const useCanvasStore = create((set, get) => ({
   selectedProducts: [],
   sortSelectedProducts: [],
+  hoverProduct: -1,
   started: false,
   params: {
     alpha: 0.2,
@@ -107,10 +108,10 @@ export const useCanvasStore = create((set, get) => ({
     maxNumIter: 100000,
     numPointsFactor: 2.5,
     radius: 0.1,
-  },
-  hoverProduct: null,
-  setStarted: (bool) => set({ started: bool }),
-  setSortedProducts: (newArray) => set({ sortSelectedProducts: newArray }),
+    },
+    setHoverProduct: (id) => set({ hoverProduct: id }),
+    setStarted: (bool) => set({ started: bool }),
+    setSortedProducts: (newArray) => set({ sortSelectedProducts: newArray }),
   add_select_product: (x, y, id) =>{
       set((state) => ({
         selectedProducts: [
@@ -122,7 +123,5 @@ export const useCanvasStore = create((set, get) => ({
     set((state) => ({
       selectedProducts: state.selectedProducts.filter(selpro => {return selpro.id !== id})
     }))
-  },
-  setHoverProduct: (product) => set(() => ({hoverProduct: product})), 
+},
 }))
-

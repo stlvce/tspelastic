@@ -35,144 +35,143 @@ function sortCitiesByLine(cities, points) {
   return sortedCities;
 }
 
-  export default function Canvas(props) {
-    const state = useCanvasStore((state) => state, shallow);
-    const canvasRef = useRef(null);
-    const requestRef = useRef(null);
-  
-    const drawEdges = useCallback(
-        (context, nodes, color) => {
-          if (nodes.length === 0) {
-            return;
-          }
-          context.strokeStyle = color;
-          context.lineWidth = 2;
-          context.beginPath();
-          context.moveTo(nodes[0].x, nodes[0].y);
-          nodes.slice(1).forEach(function (node) {
-            context.lineTo(node.x, node.y);
-          });
-          context.lineTo(nodes[0].x, nodes[0].y);
-    
-          context.stroke();
-          context.closePath();
-        },
-        [canvasRef.current]
-      );
+export default function Canvas(props) {
+  const state = useCanvasStore((state) => state, shallow);
+  const canvasRef = useRef(null);
+  const requestRef = useRef(null);
+  const [isDone, setIsDone] = useState(false)
+  const [openParams, setOpenParams] = useState(false);
+  const handleClickOpenParams = () => setOpenParams(true);
+  const handleClickCloseParams = () => setOpenParams(false);
+  const [selectLang] = useContext(LangContext)
 
-      const drawNodes = useCallback(
-        (context, nodes, radius, fill, color) => {
-          // context.strokeStyle = color;
-          nodes.forEach((node) => {
+  const drawEdges = useCallback(
+      (context, nodes, color) => {
+        if (nodes.length === 0) {
+          return;
+        }
+        context.strokeStyle = color;
+        context.lineWidth = 2;
+        context.beginPath();
+        context.moveTo(nodes[0].x, nodes[0].y);
+        nodes.slice(1).forEach(function (node) {
+          context.lineTo(node.x, node.y);
+        });
+        context.lineTo(nodes[0].x, nodes[0].y);
+  
+        context.stroke();
+        context.closePath();
+      },
+      [canvasRef.current]
+    );
+    
+    const drawNodes = useCallback(
+      (context, nodes, radius, fill, color, hov=-1) => {
+        nodes.forEach((node) => {
+          if(node.id === hov){
+            context.strokeStyle = '#00F';
+            context.fillStyle = '#00F';
+            context.beginPath();
+            context.arc(node.x, node.y, radius+3, 0, Math.PI * 2, true);
+            context.closePath();
+          } else {
+            context.strokeStyle = color;
+            context.fillStyle = color;
             context.beginPath();
             context.arc(node.x, node.y, radius, 0, Math.PI * 2, true);
             context.closePath();
-            console.log(node.id, state.hoverProduct)
-            if (node.id === state.hoverProduct) {
-              console.log("Изменился цвет")
-              context.strokeStyle = "#0f0"
-            } else {context.strokeStyle = color}
-            if (fill) {
-              context.fill();
-            } else {
-              context.stroke();
-            }
-          });
-        },
-        [canvasRef.current]
-      );
+          }
+          if (fill) {
+            context.fill();
+          } else {
+            context.stroke();
+          }
+        });
+      },
+      [canvasRef.current]
+    );
 
-      const elasticnet = useMemo(() => new ElasticNet(state.selectedProducts, state.params), [state.selectedProducts, state.params]);
-      
-      function _scaled(canvas, points) {
-        let width = canvas.width;
-        let height = canvas.height;
-        return points.map((node) => new Point(node.x * width, node.y * height));
-      }
-      
-      function onStart() {
-        if (requestRef.current !== null) {
-          state.setStarted(false);
-          cancelAnimationFrame(requestRef.current);
-          requestRef.current = null;
-        } else {
-          state.setStarted(true);
-          requestRef.current = requestAnimationFrame(redraw);
-        }
-      }
-
-      const redraw = time =>{
-            const canvas = canvasRef.current;
-            const ctx = canvas.getContext('2d');
-            const _scaledcities = _scaled(canvas, state.selectedProducts);
-            const _scaledpoints = _scaled(canvas, elasticnet.solution());
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawNodes(ctx, _scaledcities, 4, true);
-            drawNodes(ctx, _scaledpoints, 3, false);
-            drawEdges(ctx, _scaledpoints, '#f00');
-            if(elasticnet.do_iteration()){
-              state.setStarted(false);
-              const sortedCities = sortCitiesByLine(_scaledcities, _scaledpoints);
-              state.setSortedProducts(sortedCities);
-              return () => cancelAnimationFrame(requestRef.current);
-            }
-            else{
-              requestRef.current = requestAnimationFrame(redraw);
-            }
-      }
-
-      useEffect(()=>{
-        console.log("1", state.hoverProduct)
-        if(state.sortSelectedProducts.length > 0){
-            const canvas = canvasRef.current;
-            const ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawEdges(ctx, state.sortSelectedProducts, '#0f0');
-            drawNodes(ctx, state.sortSelectedProducts, 4, true);
-            setIsDone(true)
-        }
-      }, [state.sortSelectedProducts])
-
-      useEffect(()=>{
-        console.log("2 Id выделенного объекта = ", state.hoverProduct)
-        if(state.selectedProducts.length > 0){
-            elasticnet.setNewData(state.selectedProducts, state.params);
-            const canvas = canvasRef.current;
-            const ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            const _scaledcities = _scaled(canvas, state.selectedProducts);
-            drawNodes(ctx, _scaledcities, 4, true);
-        }
-      }, [state.selectedProducts, state.hoverProduct])
+    const elasticnet = useMemo(() => new ElasticNet(state.selectedProducts, state.params), [state.selectedProducts, state.params]);
     
-      useEffect(()=>{
-            const canvas = canvasRef.current;
-            const ctx = canvas.getContext('2d');
-            const _scaledcities = _scaled(canvas, state.selectedProducts);
-            const _scaledpoints = _scaled(canvas, elasticnet.solution());
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawNodes(ctx, _scaledcities, 4, true);
-            drawNodes(ctx, _scaledpoints, 3, false);
-            drawEdges(ctx, _scaledpoints);
-      }, [])
+    function _scaled(canvas, points) {
+      let width = canvas.width;
+      let height = canvas.height;
+      return points.map((node) => new Point(node.x * width, node.y * height, node.id));
+    }
+    
+    function onStart() {
+      if (requestRef.current !== null) {
+        state.setStarted(false);
+        cancelAnimationFrame(requestRef.current);
+        requestRef.current = null;
+      } else {
+        state.setStarted(true);
+        requestRef.current = requestAnimationFrame(redraw);
+      }
+    }
 
-      const [isDone, setIsDone] = useState(false)
-      const [openParams, setOpenParams] = useState(false);
-      const handleClickOpenParams = () => setOpenParams(true);
-      const handleClickCloseParams = () => setOpenParams(false);
-      const [selectLang] = useContext(LangContext)
-            
-    return (
-        <Box className="canvas-box">
-          {isDone && <Alert onClose={() => {setIsDone(false)}} severity="success" sx={{ position: "fixed", bottom: 0, left: 0, zIndex: "100" }}>This is a success alert — check it out!</Alert>}
-          <Typography variant='h5'>{selectLang.scheme}</Typography>
-          <canvas ref={canvasRef} width={props.width} height={props.height}></canvas>
-          <ButtonGroup variant="contained" fullWidth> 
-            <Button onClick={onStart}>{state.started ? selectLang.stop : selectLang.start}</Button>
-            <Button onClick={handleClickOpenParams}>{selectLang.param}</Button>
-            <ModalParametrs open={openParams} handleClose={handleClickCloseParams}/>
-          </ButtonGroup>
-        </Box>
-      )
+    const redraw = time =>{
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext('2d');
+      const _scaledcities = _scaled(canvas, state.selectedProducts);
+      const _scaledpoints = _scaled(canvas, elasticnet.solution());
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawNodes(ctx, _scaledcities, 4, true, '#444');
+      drawNodes(ctx, _scaledpoints, 3, false, '#444');
+      drawEdges(ctx, _scaledpoints, '#f00');
+      if(elasticnet.do_iteration()){
+        state.setStarted(false);
+        const sortedCities = sortCitiesByLine(_scaledcities, _scaledpoints);
+        state.setSortedProducts(sortedCities);
+        return () => cancelAnimationFrame(requestRef.current);
+      } else {
+        requestRef.current = requestAnimationFrame(redraw);
+      }
+    }
 
+    useEffect(()=>{
+      if(state.sortSelectedProducts.length > 0){
+          const canvas = canvasRef.current;
+          const ctx = canvas.getContext('2d');
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          drawEdges(ctx, state.sortSelectedProducts, '#0f0');
+          drawNodes(ctx, state.sortSelectedProducts, 4, true, '#444');
+          setIsDone(true)
+      }
+    }, [state.sortSelectedProducts])
+
+    useEffect(()=>{
+      if(state.selectedProducts.length > 0){
+          elasticnet.setNewData(state.selectedProducts, state.params);
+          const canvas = canvasRef.current;
+          const ctx = canvas.getContext('2d');
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          const _scaledcities = _scaled(canvas, state.selectedProducts);
+          drawNodes(ctx, _scaledcities, 4, true, '#444', state.hoverProduct);
+      }
+    }, [state.selectedProducts, state.hoverProduct])
+  
+    useEffect(()=>{
+          const canvas = canvasRef.current;
+          const ctx = canvas.getContext('2d');
+          const _scaledcities = _scaled(canvas, state.selectedProducts);
+          const _scaledpoints = _scaled(canvas, elasticnet.solution());
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          drawNodes(ctx, _scaledcities, 4, true, '#444');
+          drawNodes(ctx, _scaledpoints, 3, false, '#444');
+          drawEdges(ctx, _scaledpoints);
+    }, [])
+
+  return (
+      <Box className="canvas-box" width={props.width}>
+        {isDone && <Alert onClose={() => {setIsDone(false)}} severity="success" sx={{ position: "fixed", bottom: 0, left: 0, zIndex: "100" }}>This is a success alert — check it out!</Alert>}
+        <Typography variant='h5'>{selectLang.scheme}</Typography>
+        <canvas ref={canvasRef} width={props.width} height={props.height}></canvas>
+        <ButtonGroup variant="contained" fullWidth> 
+          <Button onClick={onStart}>{state.started ? selectLang.stop : selectLang.start}</Button>
+          <Button onClick={handleClickOpenParams}>{selectLang.param}</Button>
+          <ModalParametrs open={openParams} handleClose={handleClickCloseParams}/>
+        </ButtonGroup>
+      </Box>
+  )
 }

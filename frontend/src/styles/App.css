@@ -21,7 +21,6 @@ canvas {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 1200px;
     gap: 1em;
     margin-bottom: 1em;
 }
