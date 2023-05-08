@@ -37,6 +37,7 @@ function sortCitiesByLine(cities, points) {
 
 export default function Canvas(props) {
   const state = useCanvasStore((state) => state, shallow);
+  const categories = useCategoriesStore((state)=> state.categories, shallow);
   const canvasRef = useRef(null);
   const requestRef = useRef(null);
   const [isDone, setIsDone] = useState(false)
@@ -44,6 +45,56 @@ export default function Canvas(props) {
   const handleClickOpenParams = () => setOpenParams(true);
   const handleClickCloseParams = () => setOpenParams(false);
   const [selectLang] = useContext(LangContext)
+
+  const drawMaps = useCallback((context, categories)=>{
+    categories.forEach((category)=>{
+      context.strokeStyle = '#000';
+        // Определение прямоугольника
+        var x = category.start_x;
+        var y = category.start_y;
+        var width = category.end_x - category.start_x;
+        var height = category.end_y - category.start_y;
+  
+        // Определение текста
+        var text = category.name;
+  
+        // Установка шрифта и размера текста
+        context.font = "12px Arial";
+  
+        // Вычисление координат для размещения текста в центре прямоугольника
+        var textWidth = context.measureText(text).width;
+        var textX = x + (width - textWidth) / 2;
+        var textY = y + height / 2;
+  
+        // Нарисовать прямоугольник
+        context.strokeRect(x, y, width, height);
+  
+        // Нарисовать текст в центре прямоугольника
+        if(width < height){
+          // Сохранение текущего состояния контекста
+          context.save();
+  
+          // Поворот контекста на 90 градусов по часовой стрелке
+          context.rotate(Math.PI / 2);
+  
+          // Перенос контекста вправо, чтобы текст не перекрывался
+          context.translate(0, -textX - textWidth / 2);
+  
+          // Нарисовать повернутый текст за пределами видимой области холста
+          context.fillStyle = '#000';
+          context.fillText(text, textY-60, 0);
+  
+          // Восстановление предыдущего состояния контекста
+          context.restore();
+        }
+        else{
+          context.fillStyle = '#000'; // установить цвет текста
+          context.fillText(text, textX, textY);
+        }
+        
+    })
+  }, 
+  [canvasRef.current])
 
   const drawEdges = useCallback(
       (context, nodes, color) => {
@@ -69,8 +120,8 @@ export default function Canvas(props) {
       (context, nodes, radius, fill, color, hov=-1) => {
         nodes.forEach((node) => {
           if(node.id === hov){
-            context.strokeStyle = '#00F';
-            context.fillStyle = '#00F';
+            context.strokeStyle = '#0F0';
+            context.fillStyle = '#0F0';
             context.beginPath();
             context.arc(node.x, node.y, radius+3, 0, Math.PI * 2, true);
             context.closePath();
@@ -116,6 +167,7 @@ export default function Canvas(props) {
       const _scaledcities = _scaled(canvas, state.selectedProducts);
       const _scaledpoints = _scaled(canvas, elasticnet.solution());
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawMaps(ctx, categories);
       drawNodes(ctx, _scaledcities, 4, true, '#444');
       drawNodes(ctx, _scaledpoints, 3, false, '#444');
       drawEdges(ctx, _scaledpoints, '#f00');
@@ -146,6 +198,7 @@ export default function Canvas(props) {
           const canvas = canvasRef.current;
           const ctx = canvas.getContext('2d');
           ctx.clearRect(0, 0, canvas.width, canvas.height);
+          drawMaps(ctx, categories);
           const _scaledcities = _scaled(canvas, state.selectedProducts);
           drawNodes(ctx, _scaledcities, 4, true, '#444', state.hoverProduct);
       }
@@ -157,6 +210,7 @@ export default function Canvas(props) {
           const _scaledcities = _scaled(canvas, state.selectedProducts);
           const _scaledpoints = _scaled(canvas, elasticnet.solution());
           ctx.clearRect(0, 0, canvas.width, canvas.height);
+          drawMaps(ctx, categories);
           drawNodes(ctx, _scaledcities, 4, true, '#444');
           drawNodes(ctx, _scaledpoints, 3, false, '#444');
           drawEdges(ctx, _scaledpoints);

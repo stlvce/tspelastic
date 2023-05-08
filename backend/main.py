@@ -76,8 +76,7 @@ def update_category():
             db.session.commit()
             return jsonify({'msg': 'Вы обновили категорию'}), 200
         return jsonify({'msg': 'Не правильные данные'}), 401
-
-
+ 
 @app.route('/product', methods=['POST'])
 def add_product():
     id = request.json.get("id", None)
