@@ -11,6 +11,7 @@ const ProductItem = forwardRef((props, ref) => {
 
     return (
         <ListItem
+            button
             divider
             secondaryAction={<IconButton edge="end" aria-label="delete">
                 { selectedProducts.filter(selpro => selpro.id === props.product.id)[0] ? <RemoveIcon color="su"/> :  <AddIcon color="su" />}

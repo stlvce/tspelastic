@@ -1,6 +1,12 @@
 import { createContext } from "react";
-import imgParamRu from "../assets/parameters-ru.png"
-import imgParamEng from "../assets/parameters-eng.png"
+import imgParamRu from "../assets/parameters-ru.png";
+import imgParamEng from "../assets/parameters-eng.png";
+import imgTutorRu1 from "../assets/tutor-ru-1.png";
+import imgTutorRu2 from "../assets/tutor-ru-2.png";
+import imgTutorRu3 from "../assets/tutor-ru-3.png";
+import imgTutorEng1 from "../assets/tutor-eng-1.png";
+import imgTutorEng2 from "../assets/tutor-eng-2.png";
+import imgTutorEng3 from "../assets/tutor-eng-3.png";
 
 export const LangContext = createContext();
 
@@ -40,7 +46,14 @@ export const langList = {
             maxNumIter: "Максимальное число итераций",
             numPointsFactor: "Коэффициент числа точек",
             radius: "Радиус вокруг центра тяжести продукта",
-        }
+        },
+        tutor: "Использование",
+        textTutor: [
+            "Чтобы кнопка «Старт» стала доступной необходимо выбрать несколько продуктов",
+            "Теперь можно начать построение",
+            "Также можно изменить параметры построения"
+        ],
+        imgTutor: [imgTutorRu1, imgTutorRu2, imgTutorRu3]
     },
     en: {
         lang: "ENG",
@@ -77,6 +90,13 @@ export const langList = {
             maxNumIter: "Maximum number of iterations",
             numPointsFactor: "Number of points factor",
             radius: "Radius around the center of gravity of the product",
-        }
+        },
+        tutor: "Usage",
+        textTutor: [
+            "The «Start» button became available, you need to select several products",
+            "Now you can start building",
+            "You can also change the build parameters"
+        ],
+        imgTutor: [imgTutorEng1, imgTutorEng2, imgTutorEng3]
     }
 }

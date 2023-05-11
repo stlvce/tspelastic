@@ -32,7 +32,7 @@ export default function SelectedProducts({products, categories}) {
 
     return (
         <Box sx={{ width: "750px"}}>
-            <Box sx={{ display: "flex", justifyContent: "space-between", m: "0 0 10px 0" }}>
+            <Box sx={{ display: "flex", justifyContent: "space-between", m: "0 0 1em 0" }}>
                 <Typography variant="h5">
                     {selectLang.product} ({selectedProducts.length})
                 </Typography>
