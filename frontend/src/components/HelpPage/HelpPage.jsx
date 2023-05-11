@@ -1,25 +1,32 @@
 import React, { useContext } from 'react';
 import { LangContext } from '../../context/langContext';
-import { Container, Typography } from '@mui/material';
+import { Container, Typography, Box } from '@mui/material';
+import styled from '@emotion/styled';
+import DescriptParams from './DescriptParams';
 
-const styleContainerFlex = {
-    display: "flex", 
-    flexDirection: "column", 
-    alignItems: "center",
-    pt: "100px"
-};
+const FlexBox = styled('div')(({ theme }) => ({
+    maxWidth: "800px",
+    [theme.breakpoints.up('xl')]: {
+        maxWidth: "600px"
+    },
+}));
 
-const HelpPage = () => {
+const HelpPage = ({ styleFlex }) => {
     const [selectLang] = useContext(LangContext);
 
     return (
         <main>
-            <Container maxWidth="xl" sx={styleContainerFlex}>
-                <Typography variant='h4'>{selectLang.param}</Typography>
-                <Typography variant='body1' sx={{ fontSize: "20px", mb: "1em"}}>
-                    {selectLang.description}
-                </Typography>
-                <img src={selectLang.imgParam} alt="параметры" loading="lazy" width="500px"/>
+            <Container maxWidth="xl" sx={styleFlex}>
+                <Box sx={{width: "800px"}}>
+                    <Typography variant='h4'>{selectLang.param}</Typography>
+                    <Typography variant='body1' sx={{ fontSize: "20px"}}>
+                        {selectLang.description}
+                    </Typography>
+                    <DescriptParams />
+                </Box>
+                <FlexBox>
+                    <img src={selectLang.imgParam} alt="параметры" loading="lazy" width="100%"/>
+                </FlexBox>
             </Container>
         </main>    
     )

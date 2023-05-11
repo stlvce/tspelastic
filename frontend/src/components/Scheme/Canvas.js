@@ -3,7 +3,7 @@ import { Box, Button, ButtonGroup, Alert, Typography } from '@mui/material';
 import Point from '../../services/point';
 import ElasticNet from '../../services/ElasticNet';
 import ModalParametrs from './ModalParametrs';
-import { useCanvasStore } from '../../services/state';
+import { useCanvasStore, useCategoriesStore } from '../../services/state';
 import { shallow } from 'zustand/shallow';
 import { LangContext } from '../../context/langContext';
 
@@ -222,7 +222,7 @@ export default function Canvas(props) {
         <Typography variant='h5'>{selectLang.scheme}</Typography>
         <canvas ref={canvasRef} width={props.width} height={props.height}></canvas>
         <ButtonGroup variant="contained" fullWidth> 
-          <Button onClick={onStart}>{state.started ? selectLang.stop : selectLang.start}</Button>
+          <Button onClick={onStart} disabled={state.selectedProducts.length === 0}>{state.started ? selectLang.stop : selectLang.start}</Button>
           <Button onClick={handleClickOpenParams}>{selectLang.param}</Button>
           <ModalParametrs open={openParams} handleClose={handleClickCloseParams}/>
         </ButtonGroup>

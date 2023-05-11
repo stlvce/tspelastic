@@ -109,9 +109,10 @@ export const useCanvasStore = create((set, get) => ({
     numPointsFactor: 2.5,
     radius: 0.1,
     },
-    setHoverProduct: (id) => set({ hoverProduct: id }),
-    setStarted: (bool) => set({ started: bool }),
-    setSortedProducts: (newArray) => set({ sortSelectedProducts: newArray }),
+  // setParams: (key, payload) => set(params[key] = payload),
+  setHoverProduct: (id) => set({ hoverProduct: id }),
+  setStarted: (bool) => set({ started: bool }),
+  setSortedProducts: (newArray) => set({ sortSelectedProducts: newArray }),
   add_select_product: (x, y, id) =>{
       set((state) => ({
         selectedProducts: [

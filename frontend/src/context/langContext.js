@@ -29,7 +29,18 @@ export const langList = {
         tableParamLabel: "Таблица категорий",
         tableParam: ["Название", "Начальное x", "Начальное y", "Конечное x", "Конечное y", "Действие"],
         edit: "Редактировать",
-        save: "Сохранить"
+        save: "Сохранить",
+        parmDescript: {
+            alpha: "Относительная сила точки",
+            beta: "Относительная сила соседних точек",
+            initialK: "Коэффициент приближения",
+            epsilon: "Эпсилон",
+            kAlpha: "Коэффициент приближения для точки",
+            kUpdatePeriod: "Обновление периода приближения",
+            maxNumIter: "Максимальное число итераций",
+            numPointsFactor: "Коэффициент числа точек",
+            radius: "Радиус вокруг центра тяжести продукта",
+        }
     },
     en: {
         lang: "ENG",
@@ -55,6 +66,17 @@ export const langList = {
         tableParamLabel: "Category table",
         tableParam: ["Name", "Start x", "Start y", "End x", "End y", "Action"],
         edit: "Edit",
-        save: "Save"
+        save: "Save",
+        parmDescript: {
+            alpha: "Relative strength of point of view",
+            beta: "Relative strength of neighboring points",
+            initialK: "Approximation factor",
+            epsilon: "Epsilon",
+            kAlpha: "Point proximity factor",
+            kUpdatePeriod: "Zoom period update",
+            maxNumIter: "Maximum number of iterations",
+            numPointsFactor: "Number of points factor",
+            radius: "Radius around the center of gravity of the product",
+        }
     }
 }

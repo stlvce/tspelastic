@@ -40,6 +40,9 @@ export default function SelectedProducts({products, categories}) {
                 <ModalProducts open={open} handleClose={handleClose} select={select} unselect={unselect}/>
             </Box >
             <Container sx={{ height: "600px", background: "#FFF", pt: "2em", overflow: 'auto', boxShadow: 3}}>
+                {selectedProducts.length === 0 && <Typography sx={{ textAlign: "center", opacity: "0.5"}}>
+                    Добавьте продукты, чтобы начать построение
+                </Typography>}
                 <Grid 
                     container
                     spacing={3}
