@@ -15,7 +15,7 @@ import { shallow } from 'zustand/shallow'
 import ModalProducts from "./ModalProducts";
 import { LangContext } from "../../context/langContext";
 
-export default function SelectedProducts({products, categories}) {
+export default function SelectedProducts({products, categories, width, height}) {
     const {selectedProducts, add_select_product, del_select_product, setHoverProduct} = useCanvasStore((state)=>state, shallow);
     const [open, setOpen] = useState(false);
     const handleClickOpen = () => setOpen(true);
@@ -23,7 +23,8 @@ export default function SelectedProducts({products, categories}) {
     const [selectLang] = useContext(LangContext)
 
     const select = (item) => {
-        add_select_product(Math.random(), Math.random(), item);
+        const category = categories.find((cat) => cat.id === products.find(product=> product.id === item).category_id);
+        add_select_product(item, category, width, height);
     }
 
     const unselect = (item) => {

@@ -13,7 +13,7 @@ const MainPage = ({ styleFlex }) => {
         <main>
             <Container sx={styleFlex} maxWidth="xl">
                 <Canvas width={700} height={600}/>
-                <SelectedProducts products={products} categories={categories}/>
+                <SelectedProducts products={products} categories={categories} width={700} height={600}/>
             </Container>
         </main>      
     )

@@ -186,6 +186,7 @@ export default function Canvas(props) {
           const canvas = canvasRef.current;
           const ctx = canvas.getContext('2d');
           ctx.clearRect(0, 0, canvas.width, canvas.height);
+          drawMaps(ctx, categories);
           drawEdges(ctx, state.sortSelectedProducts, '#0f0');
           drawNodes(ctx, state.sortSelectedProducts, 4, true, '#444');
           setIsDone(true)
@@ -202,8 +203,19 @@ export default function Canvas(props) {
           const _scaledcities = _scaled(canvas, state.selectedProducts);
           drawNodes(ctx, _scaledcities, 4, true, '#444', state.hoverProduct);
       }
-    }, [state.selectedProducts, state.hoverProduct])
+    }, [state.selectedProducts])
   
+    useEffect(()=>{
+      if(state.selectedProducts.length > 0){
+          const canvas = canvasRef.current;
+          const ctx = canvas.getContext('2d');
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          drawMaps(ctx, categories);
+          const _scaledcities = _scaled(canvas, state.selectedProducts);
+          drawNodes(ctx, _scaledcities, 4, true, '#444', state.hoverProduct);
+      }
+    }, [state.hoverProduct])
+    
     useEffect(()=>{
           const canvas = canvasRef.current;
           const ctx = canvas.getContext('2d');

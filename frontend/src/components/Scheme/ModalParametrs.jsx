@@ -9,6 +9,17 @@ export default function ModalParametrs({ open, handleClose }) {
     const [selectLang] = useContext(LangContext);
     const state = useCanvasStore((state) => state, shallow);
 
+    const handleChange = (e) => {
+        let id = e.target.id;
+        let value = e.target.value;
+        state.params[id] = Number(value);
+    }
+
+    const handleSubmit = () => {
+        handleClose();
+        // state.saveParams(state.params);
+    }
+
     return (
         <Dialog open={open} onClose={handleClose} scroll="body" maxWidth="md">
             <Toolbar>
@@ -26,14 +37,24 @@ export default function ModalParametrs({ open, handleClose }) {
                 {Object.keys(state.params).map(key =>(
                     <Grid item key={key}>
                         <Tooltip title={selectLang.parmDescript[key]} placement="left" arrow>
-                            <TextField fullWidth label={key} id={key} defaultValue={state.params[key]}/>
+                            <TextField 
+                                id={key} 
+                                label={key} 
+                                type="number"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                onChange={handleChange} 
+                                defaultValue={state.params[key]} 
+                                fullWidth
+                            />
                         </Tooltip>
                     </Grid>       
                 ))}
             </Grid>
-            <Button onClick={handleClose} sx={{ mt: "20px"}} variant="text" color="success">
+            <Button onClick={handleSubmit} sx={{ mt: "20px"}} variant="text" color="success">
                 {selectLang.done}
-                </Button>
+            </Button>
         </Dialog>   
     )
 }

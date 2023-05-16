@@ -109,20 +109,27 @@ export const useCanvasStore = create((set, get) => ({
     numPointsFactor: 2.5,
     radius: 0.1,
     },
+  saveParams: (obj) => set({ params: obj }),
   // setParams: (key, payload) => set(params[key] = payload),
   setHoverProduct: (id) => set({ hoverProduct: id }),
   setStarted: (bool) => set({ started: bool }),
   setSortedProducts: (newArray) => set({ sortSelectedProducts: newArray }),
-  add_select_product: (x, y, id) =>{
-      set((state) => ({
-        selectedProducts: [
-          ...state.selectedProducts, new Point(x, y, id)
-        ]
-      }))
+  add_select_product: (id, category, width, height) =>{
+    const xRange = category.end_x - category.start_x;
+    const yRange = category.end_y - category.start_y;
+    const x = Math.random() * xRange + category.start_x;
+    const y = Math.random() * yRange + category.start_y;
+    const xNorm = x / width;
+    const yNorm = y / height;
+    set((state) => ({
+      selectedProducts: [
+        ...state.selectedProducts, new Point(xNorm, yNorm, id)
+      ]
+    }))
   },
   del_select_product: (id) =>{
     set((state) => ({
       selectedProducts: state.selectedProducts.filter(selpro => {return selpro.id !== id})
     }))
-},
+  },
 }))

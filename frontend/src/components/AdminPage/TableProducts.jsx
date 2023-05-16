@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, createRef, useRef } from "react";
-import { Table, TableHead, TableBody, TableRow, TableCell, Typography } from "@mui/material";
+import { Table, TableHead, TableBody, TableRow, TableCell } from "@mui/material";
 import { useProductsStore } from "../../services/state";
 import { shallow } from "zustand/shallow";
 import { LangContext } from "../../context/langContext";
