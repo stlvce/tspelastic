@@ -44,6 +44,9 @@ export default function ModalParametrs({ open, handleClose }) {
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
+                                inputProps={{   
+                                    step: String(state.params[key]).includes('.') ? "0.1" : "1"
+                                }}
                                 onChange={handleChange} 
                                 defaultValue={state.params[key]} 
                                 fullWidth
