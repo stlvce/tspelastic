@@ -181,6 +181,18 @@ export default function Canvas(props) {
       }
     }
 
+    const download = () => {
+      const canvas = canvasRef.current;
+      const dataUrl = canvas.toDataURL()
+      console.log(dataUrl)
+      const a = document.createElement('a')
+      a.href = dataUrl
+      a.download = "123" + ".jpg"
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+    }
+
     useEffect(()=>{
       if(state.sortSelectedProducts.length > 0){
           const canvas = canvasRef.current;
@@ -230,6 +242,7 @@ export default function Canvas(props) {
 
   return (
       <Box className="canvas-box" width={props.width}>
+        <button onClick={download}>download</button>
         {isDone && <Alert onClose={() => {setIsDone(false)}} severity="success" sx={{ position: "fixed", bottom: 0, left: 0, zIndex: "100" }}>This is a success alert — check it out!</Alert>}
         <Typography variant='h5'>{selectLang.scheme}</Typography>
         <canvas ref={canvasRef} width={props.width} height={props.height}></canvas>
