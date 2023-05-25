@@ -40,11 +40,12 @@ export default function Canvas(props) {
   const categories = useCategoriesStore((state)=> state.categories, shallow);
   const canvasRef = useRef(null);
   const requestRef = useRef(null);
-  const [isDone, setIsDone] = useState(false)
+  const [isDone, setIsDone] = useState(false);
+  const [canDownload, setCanDowndload] = useState(false);
   const [openParams, setOpenParams] = useState(false);
   const handleClickOpenParams = () => setOpenParams(true);
   const handleClickCloseParams = () => setOpenParams(false);
-  const [selectLang] = useContext(LangContext)
+  const [selectLang] = useContext(LangContext);
 
   const drawMaps = useCallback((context, categories)=>{
     categories.forEach((category)=>{
@@ -201,7 +202,8 @@ export default function Canvas(props) {
           drawMaps(ctx, categories);
           drawEdges(ctx, state.sortSelectedProducts, '#0f0');
           drawNodes(ctx, state.sortSelectedProducts, 4, true, '#444');
-          setIsDone(true)
+          setIsDone(true);
+          setCanDowndload(true);
       }
     }, [state.sortSelectedProducts])
 
@@ -242,13 +244,13 @@ export default function Canvas(props) {
 
   return (
       <Box className="canvas-box" width={props.width}>
-        <button onClick={download}>download</button>
         {isDone && <Alert onClose={() => {setIsDone(false)}} severity="success" sx={{ position: "fixed", bottom: 0, left: 0, zIndex: "100" }}>This is a success alert — check it out!</Alert>}
         <Typography variant='h5'>{selectLang.scheme}</Typography>
         <canvas ref={canvasRef} width={props.width} height={props.height}></canvas>
         <ButtonGroup variant="contained" fullWidth> 
           <Button onClick={onStart} disabled={state.selectedProducts.length === 0}>{state.started ? selectLang.stop : selectLang.start}</Button>
           <Button onClick={handleClickOpenParams}>{selectLang.param}</Button>
+          <Button onClick={download} disabled={!canDownload}>{selectLang.download}</Button>
           <ModalParametrs open={openParams} handleClose={handleClickCloseParams}/>
         </ButtonGroup>
       </Box>

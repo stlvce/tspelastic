@@ -53,7 +53,12 @@ export const langList = {
             "Теперь можно начать построение",
             "Также можно изменить параметры построения"
         ],
-        imgTutor: [imgTutorRu1, imgTutorRu2, imgTutorRu3]
+        imgTutor: [imgTutorRu1, imgTutorRu2, imgTutorRu3],
+        download: "Скачать", 
+        login: "Логин",
+        password: "Пароль",
+        entry: "Войти",
+        validEntry: "Неверно введен логин или пароль"
     },
     en: {
         lang: "ENG",
@@ -97,6 +102,11 @@ export const langList = {
             "Now you can start building",
             "You can also change the build parameters"
         ],
-        imgTutor: [imgTutorEng1, imgTutorEng2, imgTutorEng3]
+        imgTutor: [imgTutorEng1, imgTutorEng2, imgTutorEng3],
+        download: "Download",
+        login: "Login",
+        password: "Password",
+        entry: "Entry",
+        validEntry: "Incorrect username or password entered"
     }
 }
