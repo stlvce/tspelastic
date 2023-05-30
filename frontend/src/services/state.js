@@ -22,6 +22,10 @@ export const useProductsStore = create((set, get) => ({
       ),
     }))
   },
+  
+  createProduct: (obj) => {console.log(obj)},
+  deleteProduct: (id) => {console.log(id)},
+
   updateProductfetch: async (id) => {
     const select_product = get().products.filter(product=> product.id === id)[0];
     let data = {

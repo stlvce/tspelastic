@@ -1,12 +1,19 @@
 import React, { useState, forwardRef, useContext } from "react";
-import { Button, Input, TableCell, TableRow } from '@mui/material';
+import { Button, Input, TableCell, TableRow, IconButton, ButtonGroup, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useProductsStore } from "../../services/state";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import SaveIcon from '@mui/icons-material/Save';
 import { LangContext } from "../../context/langContext";
 
 const TableProdRow = forwardRef(({ product }, ref) => {
     const updateProduct = useProductsStore((state) => state.updateProduct);
     const updateProductfetch = useProductsStore((state) => state.updateProductfetch);
+    const deleteProduct = useProductsStore((state) => state.deleteProduct);
     const [editedId, setEditedid] =  useState(0);
+    const [open, setOpen] = useState(false);
+    const handleClickOpen = () => setOpen(true);
+    const handleClickClose = () => setOpen(false);
     const [selectLang] = useContext(LangContext);
 
     function editCategory(id){
@@ -18,6 +25,11 @@ const TableProdRow = forwardRef(({ product }, ref) => {
             updateProductfetch(id);
             setEditedid(0);
         }
+    }
+
+    function handleDelete() {
+        deleteProduct(product.id);
+        handleClickClose();
     }
 
     return (
@@ -38,12 +50,31 @@ const TableProdRow = forwardRef(({ product }, ref) => {
                 }} disabled={editedId !== product.id}/>
             </TableCell>
             <TableCell align="center">
-                {editedId === product.id ?
-                <Button onClick={(e)=>saveedited(product.id)} color="secondary">{selectLang.save}</Button>
-                :
-                <Button onClick={(e)=>editCategory(product.id)} color="secondary">{selectLang.edit}</Button>
-                }
-                </TableCell>
+                <ButtonGroup>
+                    {editedId === product.id ?
+                    <IconButton onClick={(e)=>saveedited(product.id)} color="secondary"><SaveIcon /></IconButton>
+                    :
+                    <IconButton onClick={(e)=>editCategory(product.id)} color="secondary"><EditIcon /></IconButton>
+                    }
+                    <IconButton onClick={handleClickOpen}><DeleteIcon /></IconButton>
+                    <Dialog
+                        open={open}
+                        onClose={handleClickClose}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                                {selectLang.questDelete}
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClickClose} color="secondary">{selectLang.disagree}</Button>
+                            <Button onClick={handleDelete} color="error">{selectLang.agree}</Button>
+                        </DialogActions>
+                    </Dialog>
+                </ButtonGroup>
+            </TableCell>    
         </TableRow>
     )
 })

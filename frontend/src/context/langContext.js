@@ -58,7 +58,19 @@ export const langList = {
         login: "Логин",
         password: "Пароль",
         entry: "Войти",
-        validEntry: "Неверно введен логин или пароль"
+        validEntry: "Неверно введен логин или пароль", 
+        questDelete: "Уверены что хотите удалить с таким id продукт?",
+        agree: "Да",
+        disagree: "Нет",
+        createProd: "Создать продукт",
+        modalCreateProd: {
+            header: "Создание продукта",
+            name: "Название продукта",
+            category: "Категория (1-16)",
+            description: "Описание",
+            create: "Создать", 
+            cancel: "Отмена"
+        }
     },
     en: {
         lang: "ENG",
@@ -107,6 +119,18 @@ export const langList = {
         login: "Login",
         password: "Password",
         entry: "Entry",
-        validEntry: "Incorrect username or password entered"
+        validEntry: "Incorrect username or password entered",
+        questDelete: "Are you sure you want to delete a product with this id?",
+        agree: "Yes",
+        disagree: "No",
+        createProd: "Create a product",
+        modalCreateProd: {
+            header: "Product creation",
+            name: "The product's name",
+            category: "Category (1-16)",
+            description: "Description",
+            create: "Create", 
+            cancel: "Cancel"
+        }
     }
 }
