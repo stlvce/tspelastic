@@ -32,22 +32,34 @@ export default function ProductList({ searchtext, filtercategory, select, unsele
         }
     };
 
+    const categoryFilter = product => {
+        return filtercategory.length ? filtercategory.includes(product.category_id) : product
+    };
+
+    const searchFilter = product => {
+        return product.name.toLowerCase().includes(searchtext.toLowerCase())
+    }
+
     useEffect(() => getNewProds(), [])
 
     useEffect(() => {
         if (observerLoader.current) observerLoader.current.disconnect();
         observerLoader.current = new IntersectionObserver(actionInSight);
         if (lastItem.current) observerLoader.current.observe(lastItem.current);
+        console.log(searchtext)
+        console.log(filtercategory)
     }, [lastItem]);
 
     return (
         <List>
-            {arrProd.data.filter(product=> filtercategory.length ? filtercategory.includes(product.category_id) : product).filter(
-                product=>product.name.toLowerCase().includes(searchtext.toLowerCase())).map(
-                    (product, index) => index + 1 === arrProd.data.length 
-                        ? <ProductItem product={product} select={select} unselect={unselect} key={product.id} ref={lastItem}/> 
-                        : <ProductItem product={product} select={select} unselect={unselect} key={product.id}/>
-                )
+            {searchtext !== '' || filtercategory.length > 0 
+            ? productlist.filter(categoryFilter).filter(searchFilter).map(product =>
+                <ProductItem product={product} select={select} unselect={unselect} key={product.id}/>
+            )
+            : arrProd.data.map(
+                (product, index) => index + 1 === arrProd.data.length 
+                    ? <ProductItem product={product} select={select} unselect={unselect} key={product.id} ref={lastItem}/> 
+                    : <ProductItem product={product} select={select} unselect={unselect} key={product.id}/>)
             }
         </List>    
     )
