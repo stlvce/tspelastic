@@ -55,7 +55,6 @@ export const useProductsStore = create((set, get) => ({
 
 export const useCategoriesStore = create((set, get) => ({
   categories: [],
-  valid: true,
   getCategories: async () => {
     const response = await fetch('http://localhost:5000/categories')
     const data = await response.json();

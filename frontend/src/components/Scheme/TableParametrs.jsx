@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { LangContext } from "../../context/langContext";
 import { 
     Button, 
@@ -27,15 +27,13 @@ export default function TableParametrs() {
     // }
     
     function saveedited(e, id){
-        // console.log(e.target)
         // if (isCorrect(id-1)) {
         //     setValid(false)
         // }
-        // console.log(categories)
-        // if(editedId === id){
-        //     updateCategoryfetch(id);
-        //     setEditedid(0);
-        // }
+        if(editedId === id){
+            updateCategoryfetch(id);
+            setEditedid(0);
+        }
     }
 
     return (
@@ -71,7 +69,7 @@ export default function TableParametrs() {
                         </TableCell>
                     <TableCell align="center">
                         {editedId === category.id ?
-                        <Button onClick={(e)=>saveedited(e, category.id)} color="secondary">{selectLang.save}</Button>
+                        <Button onClick={(e)=>saveedited(category.id)} color="secondary">{selectLang.save}</Button>
                         :
                         <Button onClick={(e)=>editCategory(category.id)} color="secondary">{selectLang.edit}</Button>
                         }
