@@ -6,9 +6,9 @@ resource "yandex_mdb_mysql_cluster" "db-store" {
   config { # поменять
     version     = "8.0" 
     resources {
-      resource_preset_id = "s2.micro"
+      resource_preset_id = "s3-c2-m8"
       disk_type_id       = "network-ssd"
-      disk_size          = 16
+      disk_size          = 10
     }
     mysql_config = { 
       sql_mode                      = "ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"

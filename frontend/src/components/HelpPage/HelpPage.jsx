@@ -55,7 +55,7 @@ const HelpPage = () => {
                         <Typography variant='h4' sx={{ mb: "0.3em" }}>{selectLang.tutor}</Typography>
                     </Grid>
                     {selectLang.textTutor.map((el, i) =>
-                        <>
+                        <Box key={i}>
                             <Grid item>
                                 <Typography sx={{ fontSize: "18px" }}>{selectLang.textTutor[i]}</Typography>
                             </Grid>
@@ -68,7 +68,7 @@ const HelpPage = () => {
                                     border="1px"
                                 />
                             </Grid>
-                        </>
+                        </Box>
                     )}
                 </TabPanel>
                 <TabPanel value={value} index={1} spacing={3}>

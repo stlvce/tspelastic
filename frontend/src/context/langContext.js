@@ -1,12 +1,4 @@
 import { createContext } from "react";
-import imgParamRu from "../assets/parameters-ru.png";
-import imgParamEng from "../assets/parameters-eng.png";
-import imgTutorRu1 from "../assets/tutor-ru-1.png";
-import imgTutorRu2 from "../assets/tutor-ru-2.png";
-import imgTutorRu3 from "../assets/tutor-ru-3.png";
-import imgTutorEng1 from "../assets/tutor-eng-1.png";
-import imgTutorEng2 from "../assets/tutor-eng-2.png";
-import imgTutorEng3 from "../assets/tutor-eng-3.png";
 
 export const LangContext = createContext();
 
@@ -29,7 +21,7 @@ export const langList = {
         search: "Найти...",
         categor: "Категории",
         description: "При нажатии на кнопку параметры появляется диалоговое окно с параметрами для вычисления эластичной нейронной сети. Можете их корректировать для лучшей скорости. По умолчанию установлены оптимальные значения.",
-        imgParam: imgParamRu,
+        imgParam: "https://d5dhuir1igpr5k9qholj.apigw.yandexcloud.net/static/parameters-ru.png",
         tableProdLabel: "Таблица продуктов",
         tableProd: ["Название", "Id категории", "Описание", "Действие"],
         tableParamLabel: "Таблица категорий",
@@ -53,7 +45,11 @@ export const langList = {
             "Теперь можно начать построение",
             "Также можно изменить параметры построения"
         ],
-        imgTutor: [imgTutorRu1, imgTutorRu2, imgTutorRu3],
+        imgTutor: [
+            "https://d5dhuir1igpr5k9qholj.apigw.yandexcloud.net/static/tutor-ru-1.png", 
+            "https://d5dhuir1igpr5k9qholj.apigw.yandexcloud.net/static/tutor-ru-2.png", 
+            "https://d5dhuir1igpr5k9qholj.apigw.yandexcloud.net/static/tutor-ru-3.png"
+        ],
         download: "Скачать", 
         login: "Логин",
         password: "Пароль",
@@ -90,7 +86,7 @@ export const langList = {
         search: "Search...",
         categor: "Categories",
         description: "When you click on the Parameters button, a dialog box appears with the parameters for calculating the elastic neural network. You can adjust them for better speed. By default, the optimal values are set.",
-        imgParam: imgParamEng,
+        imgParam: "https://d5dhuir1igpr5k9qholj.apigw.yandexcloud.net/static/parameters-eng.png",
         tableProdLabel: "Product table",
         tableProd: ["Name", "Id category", "Description", "Action"],
         tableParamLabel: "Category table",
@@ -114,7 +110,11 @@ export const langList = {
             "Now you can start building",
             "You can also change the build parameters"
         ],
-        imgTutor: [imgTutorEng1, imgTutorEng2, imgTutorEng3],
+        imgTutor: [
+            "https://d5dhuir1igpr5k9qholj.apigw.yandexcloud.net/static/tutor-eng-1.png", 
+            "https://d5dhuir1igpr5k9qholj.apigw.yandexcloud.net/static/tutor-eng-2.png", 
+            "https://d5dhuir1igpr5k9qholj.apigw.yandexcloud.net/static/tutor-eng-3.png"
+        ],
         download: "Download",
         login: "Login",
         password: "Password",

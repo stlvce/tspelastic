@@ -1,0 +1,19 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Static API
+paths:
+  /static/{file}:
+    get:
+      summary: Serve static file from Yandex Cloud Object Storage
+      parameters:
+        - name: file
+          in: path
+          required: true
+          schema:
+            type: string
+      x-yc-apigateway-integration:
+        type: object_storage
+        bucket: static-files-pp
+        object: '{file}'
+
