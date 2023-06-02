@@ -8,8 +8,9 @@ import { LangContext } from "../../context/langContext";
 
 const TableProdRow = forwardRef(({ product }, ref) => {
     const updateProduct = useProductsStore((state) => state.updateProduct);
+    const getProducts = useProductsStore((state) => state.getProducts)
     const updateProductfetch = useProductsStore((state) => state.updateProductfetch);
-    const deleteProduct = useProductsStore((state) => state.deleteProduct);
+    const deleteProduct = useProductsStore((state) => state.deleteProductfetch);
     const [editedId, setEditedid] =  useState(0);
     const [open, setOpen] = useState(false);
     const handleClickOpen = () => setOpen(true);
@@ -30,6 +31,7 @@ const TableProdRow = forwardRef(({ product }, ref) => {
     function handleDelete() {
         deleteProduct(product.id);
         handleClickClose();
+        getProducts();
     }
 
     return (

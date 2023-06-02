@@ -6,7 +6,7 @@ export const useProductsStore = create((set, get) => ({
   isLoading: false,
   getProducts: async () => {
     set({ isLoading: true });
-    const response = await fetch('http://localhost:5000/products');
+    const response = await fetch('/api/products');
     const data = await response.json();
     if(get().products !== data.products){
       set({ products: data.products });
@@ -23,9 +23,26 @@ export const useProductsStore = create((set, get) => ({
     }))
   },
   
-  createProduct: (obj) => {console.log(obj)},
-  deleteProduct: (id) => {console.log(id)},
-
+  AddProductfetch: async (name, image, description, category_id) => {
+    let data = {
+      name: name,
+      image: image,
+      description: description,
+      category_id: category_id,
+    }
+    console.log(data, "add product");
+    const response = await fetch("/api/product", {
+      method: "POST", // "GET, POST, PUT, DELETE, etc. mode: "cors", // no-cors, *cors, same-origin
+      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: "same-origin", // include, "same-origin, omit headers: {
+      "Content-Type": "application/json",
+      // 'Content-Type': "application/x-www-form-urlencoded",
+      redirect: "follow", // manual, *follow, error referrerPolicy: "no-referrer", // no-referrer, "no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin body: JSON.stringify(data), // body data type must match "Content-Type" header });
+    })
+    const resp = await response.json();
+    console.log(resp.msg, "resp msg");
+    return resp.msg;
+  },
   updateProductfetch: async (id) => {
     const select_product = get().products.filter(product=> product.id === id)[0];
     let data = {
@@ -35,7 +52,7 @@ export const useProductsStore = create((set, get) => ({
       'description': select_product.description,
       'category_id': select_product.category_id
     }
-    const response = await fetch('http://localhost:5000/product', {
+    const response = await fetch('/api/product', {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -50,13 +67,33 @@ export const useProductsStore = create((set, get) => ({
     });
     const resp =  await response.json();
     return resp.msg;
+  },
+  deleteProductfetch: async (id) => {
+    let data = {
+      id: id,
+    }
+    const response = await fetch('/api/productremove', {
+      method: "POST", // *GET, POST, PUT, DELETE, etc.
+      mode: "cors", // no-cors, *cors, same-origin
+      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: "same-origin", // include, *same-origin, omit
+      headers: {
+        "Content-Type": "application/json",
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      redirect: "follow", // manual, *follow, error
+      referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+      body: JSON.stringify(data), // body data type must match "Content-Type" header
+    }); 
+    const resp = await response.json();
+    return resp.msg
   }
 }))
 
 export const useCategoriesStore = create((set, get) => ({
   categories: [],
   getCategories: async () => {
-    const response = await fetch('http://localhost:5000/categories')
+    const response = await fetch('/api/categories')
     const data = await response.json();
     set({ categories: data.categories });
   },
@@ -79,7 +116,7 @@ export const useCategoriesStore = create((set, get) => ({
       'end_x': select_category.end_x,
       'end_y': select_category.end_y
     }
-    const response = await fetch('http://localhost:5000/category', {
+    const response = await fetch('/api/category', {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached

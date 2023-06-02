@@ -35,7 +35,6 @@ def categories_get():
 ```
 + _Update_ – обновление свойств категорий/продуктов в панели администратора.
 ```python
-@app.route('/categories', methods=['GET'])
 @app.route('/category', methods=['POST'])
 def update_category():
     id = request.json.get("id", None)

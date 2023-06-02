@@ -14,7 +14,7 @@ CORS(app, supports_credentials=True)
 
 
 class Product(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
     name = db.Column(db.String(120), unique=True, nullable=False)
     description = db.Column(db.Text(), nullable=True)
     image = db.Column(db.Text(), nullable=True)
@@ -39,7 +39,7 @@ class Category(db.Model):
         return {"id": self.id, "name": self.name, "start_x": self.start_x, "start_y": self.start_y,
                 "end_x": self.end_x, "end_y": self.end_y }
 
-@app.route('/categories', methods=['GET'])
+@app.route('/api/categories', methods=['GET'])
 def categories_get():
     categories = Category.query.all()
     categoriesarray = []
@@ -47,7 +47,7 @@ def categories_get():
         categoriesarray.append(category.to_json)
     return jsonify(categories=categoriesarray)
 
-@app.route('/products', methods=['GET'])
+@app.route('/api/products', methods=['GET'])
 def products_get():
     products = Product.query.all()
     productssarray = []
@@ -55,7 +55,7 @@ def products_get():
         productssarray.append(product.to_json)
     return jsonify(products=productssarray)
 
-@app.route('/category', methods=['POST'])
+@app.route('/api/category', methods=['POST'])
 def update_category():
     id = request.json.get("id", None)
     name = request.json.get("name", None)
@@ -77,7 +77,7 @@ def update_category():
             return jsonify({'msg': 'Вы обновили категорию'}), 200
         return jsonify({'msg': 'Не правильные данные'}), 401
  
-@app.route('/product', methods=['POST'])
+@app.route('/api/product', methods=['POST'])
 def add_product():
     id = request.json.get("id", None)
     name = request.json.get("name", None)
@@ -104,6 +104,17 @@ def add_product():
             db.session.commit()
             return jsonify({'msg': 'Вы обновили продукт'}), 200
         return jsonify({'msg': 'Не правильные данные'}), 401
+
+@app.route('/api/productremove', method=['POST'])
+def delete_product():
+    id = request.json.get("id", None)
+    with app.app_context():
+        product = db.session.query(Product.filter(Product.id == id).first())
+        if product:
+            db.session.delete(product)
+            db.session.commit()
+            return jsonify({'msg': 'Вы удалили продукт'}), 200
+        return jsonify({'msg': 'Неправильные данные'}), 401
 
 
 if __name__ == "__main__":

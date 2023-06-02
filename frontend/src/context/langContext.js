@@ -63,6 +63,7 @@ export const langList = {
             header: "Создание продукта",
             name: "Название продукта",
             category: "Категория (1-16)",
+            iamgeLink: "Ссылка на изображение",
             description: "Описание",
             create: "Создать", 
             cancel: "Отмена"
@@ -128,6 +129,7 @@ export const langList = {
             header: "Product creation",
             name: "The product's name",
             category: "Category (1-16)",
+            iamgeLink: "Image link",
             description: "Description",
             create: "Create", 
             cancel: "Cancel"

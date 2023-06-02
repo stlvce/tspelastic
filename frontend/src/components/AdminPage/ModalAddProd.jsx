@@ -51,12 +51,11 @@ const StyledTextarea = styled(TextareaAutosize)(
 );
 
 export default function ModalAddProd({ open, handleClose }) {
-    const createProduct = useProductsStore((state) => state.createProduct);
+    const createProduct = useProductsStore((state) => state.AddProductfetch);
     const [selectLang] = useContext(LangContext);
     const [newProduct, setNewProduct] = useState({
         category_id: "",
         description: "",
-        id: "",
         image: "",
         name: ""
     });
@@ -69,7 +68,12 @@ export default function ModalAddProd({ open, handleClose }) {
     }
 
     const handleSubmit = () => {
-        createProduct(newProduct);
+        createProduct(
+            newProduct.name,
+            newProduct.image,
+            newProduct.description,
+            newProduct.category_id
+        );
         handleClose();
     }
 
@@ -99,6 +103,16 @@ export default function ModalAddProd({ open, handleClose }) {
                         variant="outlined"
                         onChange={handleChange}
                     />
+                    <TextField
+                        margin="dense"
+                        id="image"
+                        name="image"
+                        label={selectLang.modalCreateProd.imageLink}
+                        type="text"
+                        fullWidth
+                        variant="outlined"
+                        onChange={handleChange}
+                    />
                     <StyledTextarea
                         aria-label="empty textarea"
                         id="description"
@@ -109,8 +123,12 @@ export default function ModalAddProd({ open, handleClose }) {
                 </FormControl>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleSubmit} color="secondary" variant="outlined">{selectLang.modalCreateProd.cancel}</Button>
-                <Button onClick={handleClose} color="success" variant="outlined">{selectLang.modalCreateProd.create}</Button>
+                <Button onClick={handleSubmit} color="secondary" variant="outlined">
+                    {selectLang.modalCreateProd.cancel}
+                </Button>
+                <Button onClick={handleClose} color="success" variant="outlined">
+                    {selectLang.modalCreateProd.create}
+                </Button>
             </DialogActions>
         </Dialog>
     )
