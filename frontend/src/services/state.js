@@ -6,7 +6,7 @@ export const useProductsStore = create((set, get) => ({
   isLoading: false,
   getProducts: async () => {
     set({ isLoading: true });
-    const response = await fetch('/api/products');
+    const response = await fetch('http://localhost:5000/api/products');
     const data = await response.json();
     if(get().products !== data.products){
       set({ products: data.products });
@@ -31,7 +31,7 @@ export const useProductsStore = create((set, get) => ({
       category_id: category_id,
     }
     console.log(data, "add product");
-    const response = await fetch("/api/product", {
+    const response = await fetch("http://localhost:5000/api/product", {
       method: "POST", // "GET, POST, PUT, DELETE, etc. mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
       credentials: "same-origin", // include, "same-origin, omit headers: {
@@ -52,7 +52,7 @@ export const useProductsStore = create((set, get) => ({
       'description': select_product.description,
       'category_id': select_product.category_id
     }
-    const response = await fetch('/api/product', {
+    const response = await fetch('http://localhost:5000/api/product', {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -72,7 +72,7 @@ export const useProductsStore = create((set, get) => ({
     let data = {
       id: id,
     }
-    const response = await fetch('/api/productremove', {
+    const response = await fetch('http://localhost:5000/api/productremove', {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -93,7 +93,7 @@ export const useProductsStore = create((set, get) => ({
 export const useCategoriesStore = create((set, get) => ({
   categories: [],
   getCategories: async () => {
-    const response = await fetch('/api/categories')
+    const response = await fetch('http://localhost:5000/api/categories')
     const data = await response.json();
     set({ categories: data.categories });
   },
@@ -116,7 +116,7 @@ export const useCategoriesStore = create((set, get) => ({
       'end_x': select_category.end_x,
       'end_y': select_category.end_y
     }
-    const response = await fetch('/api/category', {
+    const response = await fetch('http://localhost:5000/api/category', {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached

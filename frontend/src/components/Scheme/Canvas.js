@@ -244,7 +244,7 @@ export default function Canvas(props) {
 
   return (
       <Box className="canvas-box" width={props.width}>
-        {isDone && <Alert onClose={() => {setIsDone(false)}} severity="success" sx={{ position: "fixed", bottom: 0, left: 0, zIndex: "100" }}>This is a success alert — check it out!</Alert>}
+        {isDone && <Alert onClose={() => {setIsDone(false)}} severity="success" sx={{ position: "fixed", bottom: 0, left: 0, zIndex: "100" }}>Построения закончено</Alert>}
         <Typography variant='h5'>{selectLang.scheme}</Typography>
         <canvas ref={canvasRef} width={props.width} height={props.height}></canvas>
         <ButtonGroup variant="contained" fullWidth> 

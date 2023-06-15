@@ -12,7 +12,7 @@ function TabPanel({ children, value, index, spacing, ...other }) {
         {...other}
       >
         {value === index && (
-            <Grid container sx={{ p: 2 }} spacing={spacing}>
+            <Grid container sx={{ p: 5 }} spacing={spacing}>
                 {children}
             </Grid>
         )}

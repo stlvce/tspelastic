@@ -105,7 +105,7 @@ def add_product():
             return jsonify({'msg': 'Вы обновили продукт'}), 200
         return jsonify({'msg': 'Не правильные данные'}), 401
 
-@app.route('/api/productremove', method=['POST'])
+@app.route('/api/productremove', methods=['POST'])
 def delete_product():
     id = request.json.get("id", None)
     with app.app_context():

@@ -84,7 +84,7 @@ export default function SelectedProducts({products, categories, width, height}) 
                                 sx={{ height: "100px", width: "100px", borderRadius: "100%" }}
                             />
                             <CardHeader
-                                title={product.name}
+                                title={product.name.substr(0, 25)+"..."}
                                 subheader={categories ? 
                                     categories.filter(category => 
                                         category.id === product.category_id
